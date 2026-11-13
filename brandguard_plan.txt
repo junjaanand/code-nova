@@ -1,0 +1,1324 @@
+BrandGuard AI — Implementation Plan to Win the Inkloom AI Challenge
+
+BrandGuard AI — Implementation Plan to
+Win the Inkloom AI Challenge
+Rubric-mapped plan for Rounds 1–3: thesis, agent system, stack, step-by-step execution,
+evaluation and demo. Rename the product freely.
+
+1. The winning thesis
+
+Most teams will build 'paste text, LLM lists problems.' That is a chatbot with a checklist.
+Build a governed review system instead, with five properties the problem statement
+
+keeps pointing at:
+
+1. Evidence-first findings — every flag cites the exact guideline clause, approved fact
+
+or asset (with version). No citation, no flag.
+
+2. Hybrid detection — deterministic checks (terminology, contrast, readability, alt text)
+
+plus LLM semantic checks, so results are reproducible and explainable.
+
+3. Intent-preserving fixes — suggestions arrive as tracked-change options, never auto-
+
+applied. An Intent Guard verifies the fix keeps the creator's message and adds no
+
+new claim.
+
+4. Human control by design — roles, risk-based routing, override reasons, audit trail, no
+
+auto-publish.
+
+5. Guideline Health — overrides and repeat findings reveal ambiguous rules; an agent
+
+drafts the clarification for an admin to approve.
+
+Signature differentiator: a Brand Guard API plus MCP server so ChatGPT, Claude or
+
+agency tools can fetch brand rules or pre-check a draft before it goes out. The brief
+
+names AI tools as a source of inconsistency; this meets them where they are.
+
+2. Read the rubric first
+
+Round
+
+Biggest levers
+
+What to do
+
+1 – Plan
+
+Problem understanding 25, solution 25,
+tech 20, originality 15, feasibility 15
+
+Real evidence pack, clear workflow,
+named improvements, explicit MVP vs
+stretch cut line
+
+Page 1 of 18
+
+BrandGuard AI — Implementation Plan to Win the Inkloom AI Challenge
+
+Round
+
+Biggest levers
+
+What to do
+
+2 – Build
+
+End-to-end workflow 30, depth and
+reliability 25, progress vs plan 20,
+three improvements 15, usability 10
+
+Walking skeleton early, eval harness,
+update the plan honestly, demo each
+improvement
+
+3 –
+Finish
+
+Completeness 25, improvements 20,
+reliability 20, usability and fit 20, docs
+and roadmap 15
+
+Metrics, hardening, polish, limitations,
+roadmap
+
+Critical: Rounds 2 and 3 score 'the three improvements you named.' Name them in Round
+1, then deliver each with measurable proof:
+
+#
+
+1
+
+2
+
+3
+
+Improvement
+
+Proof to show judges
+
+Evidence-grounded findings with
+abstention
+
+100% citation validity; precision and recall
+on a gold set
+
+Intent-preserving, human-approved
+fixes
+
+Fix-pass rate on re-check; tracked-change
+diff; acceptance rate
+
+Guideline Health insights
+
+Ambiguous rules detected from override
+data; AI-drafted clarification
+
+Rules that can disqualify you: the product must be built inside the official window
+
+(commit from day one, keep history clean). Code from earlier projects — including your
+
+own RAG or agent work — plus templates, boilerplate (shadcn/ui, starters) and AI coding
+
+tools must be disclosed. Safest path: re-implement from scratch inside the window and
+
+disclose any reused patterns. Every member must be able to explain their own
+
+contribution. Research, interviews, planning and wireframes before the window are
+
+allowed; keep the repo empty until it opens.
+
+3. Round 1 evidence pack (problem understanding = 25 pts)
+
+Gather real evidence; never invent statistics.
+
+Survey 25+ people (social media managers, club and fest teams, startup founders,
+freelancers, agency staff). About 8 questions: who publishes, how guidelines are
+shared, last time something wrong went out, how review happens, tools used,
+willingness to adopt.
+
+Page 2 of 18
+
+BrandGuard AI — Implementation Plan to Win the Inkloom AI Challenge
+
+5–8 interviews (30 min), including at least one approver and one creator. Capture pain
+quotes with consent.
+
+Observation: shadow one real review cycle (WhatsApp, Drive or Canva approvals)
+and map where feedback gets lost and versions get confused.
+
+5 public case studies of brand or communication missteps (wrong claims, stale info,
+accessibility failures, AI-generated errors), each with a verifiable link.
+
+Competitor map: Frontify, Brandfolder, Acrolinx, Writer, Grammarly Business, Canva
+Brand Kit, Adobe tools — what each covers and where the gap is. Verify against their
+public docs before claiming anything.
+
+Output: a one-page problem brief with your survey numbers, three persona cards,
+and a current-state vs future-state journey map.
+
+4. Users and organisational setting
+
+Setting: a growing organisation (roughly 10–200 people) with several employees, outside
+
+agencies and AI tools publishing across LinkedIn, email, blogs, decks, PDF brochures and
+
+ad creatives.
+
+Role
+
+Needs
+
+Permissions
+
+Creator (marketer, intern,
+agency freelancer)
+
+Fast, specific, non-
+judgmental feedback before
+submitting
+
+Submit, accept or reject
+suggestions, comment
+
+Content Manager
+
+Pipeline visibility, fewer
+review rounds
+
+Assign, approve standard-
+risk content
+
+Authorised Reviewer (legal,
+compliance, brand)
+
+Only the risky items, with
+evidence attached
+
+Approve or reject high-risk
+items, override findings with
+reason
+
+Brand Admin
+
+Keep guidelines, facts and
+assets accurate
+
+Edit Brand Pack, approve
+compiled rules
+
+Auditor / Leadership
+
+Trends, risk, proof of control
+
+Read-only insights, audit
+export
+
+Page 3 of 18
+
+BrandGuard AI — Implementation Plan to Win the Inkloom AI Challenge
+
+5. End-to-end product workflow
+
+Setup (once, then versioned): Admin uploads guideline PDFs, glossary, approved facts
+
+(CSV or UI) and assets (logos, palette, fonts). The Guideline Compiler agent converts
+them into structured rules (id, category, severity, good and bad examples, source page).
+
+Admin approves each rule. The result is a versioned Brand Pack.
+
+Per content item:
+
+1. Creator submits content (text, PDF, DOCX, image, URL) with channel, audience and
+
+locale.
+
+2. AI review runs; findings stream into the UI with evidence.
+
+3. Creator accepts, edits or rejects each suggestion (rejection needs a reason).
+
+4. Delta re-review runs only on changed spans.
+
+5. Risk Router assigns reviewers by role and severity.
+
+6. Manager and Reviewer comment, request changes, approve.
+
+7. Approved version gets a hashed review certificate and audit entry.
+
+8. Insights and Guideline Health update from the outcome.
+
+States: Draft → AI-Reviewed → Changes Requested → In Human Review → Approved or
+
+Rejected → Marked Published. Every transition, comment, override and AI call is logged.
+
+6. The agent system (the heart of the product)
+
+6.1 Architecture
+
+Content in (text / PDF / DOCX / image / URL)
+  → Ingestion Agent      parse, OCR, segment, redact PII
+
+  → Context Agent        channel, audience, locale, risk tier
+
+  → Deterministic Checks lexicon, readability, contrast, alt text, structure
+
+  → Retriever            hybrid BM25 + vector + rerank, scoped to Brand Pack 
+
+version
+
+  → Specialist Agents (parallel): Tone, Terminology, Messaging, Claims, 
+
+Visual, Accessibility
+
+  → Verifier / Critic    re-checks evidence, drops weak flags, calibrates 
+
+confidence
+
+  → Fix Agent → Intent Guard   2–3 options, each re-verified
+
+  → Risk Router          assigns roles, enforces policy
+
+  → Human review UI → Audit log → Insights Analyst + Guideline Clarifier
+
+Page 4 of 18
+
+BrandGuard AI — Implementation Plan to Win the Inkloom AI Challenge
+
+Orchestrate with a LangGraph state graph: typed state, parallel fan-out, retries per node,
+
+human-in-the-loop interrupts, and a persisted trace so the UI can replay what each agent
+did.
+
+6.2 Agent roster
+
+Agent
+
+Job
+
+Tools
+
+Guardrail
+
+Guideline
+Compiler
+
+Ingestion
+
+Context
+
+Terminology
+
+Tone and
+Voice
+
+Messaging
+
+Turns PDFs,
+glossaries and fact
+sheets into
+structured, versioned
+rules
+
+Extracts text with
+positions, images,
+tables, metadata;
+redacts PII
+
+Detects channel,
+audience, locale, risk
+tier
+
+Banned, preferred
+and casing terms,
+product names
+
+Scores against voice
+attributes (e.g.
+confident, not hype)
+
+Checks key
+messages,
+positioning,
+prohibited
+comparisons
+
+PDF parser, schema
+validator
+
+Admin must approve
+every rule before it
+goes live
+
+PyMuPDF, python-docx,
+OCR, Presidio
+
+Original file never
+altered; redaction map
+kept
+
+Classifier prompt,
+channel profiles
+
+Defaults to higher risk
+when unsure
+
+spaCy PhraseMatcher,
+fuzzy match
+
+Retrieval of voice rules,
+few-shot examples
+
+Retrieval, rule lookup
+
+Deterministic first;
+LLM only for context-
+sensitive cases
+
+Must quote the voice
+rule; abstains below
+confidence threshold
+
+Flags only against a
+cited message pillar
+
+Claims and
+Facts
+
+Extracts claims and
+verifies against the
+Approved Fact
+Registry
+
+Claim extractor, fact
+lookup, date logic
+
+Supported,
+Contradicted,
+Outdated,
+Unsupported or Needs
+substantiation
+
+Page 5 of 18
+
+BrandGuard AI — Implementation Plan to Win the Inkloom AI Challenge
+
+Agent
+
+Visual
+
+Accessibility
+
+Verifier /
+Critic
+
+Fix Agent
+
+Intent Guard
+
+Risk Router
+
+Insights
+Analyst
+
+Guideline
+Clarifier
+
+Job
+
+Tools
+
+Guardrail
+
+Logo use, palette
+drift, clear space,
+safe zones, text over
+image
+
+WCAG 2.2 AA:
+contrast, alt text,
+reading level,
+headings, link text,
+color-only meaning
+
+Re-reads each
+finding against its
+evidence; kills
+hallucinated or
+uncited flags
+
+Writes 2–3
+corrections that keep
+purpose and voice
+
+Confirms the fix
+keeps the original
+meaning and adds no
+new claim
+
+Scores severity and
+routes to roles per
+admin policy
+
+Finds recurring
+mistakes by rule,
+team, channel,
+agency
+
+Detects ambiguous
+or conflicting rules
+and drafts clearer
+wording
+
+Vision model, OpenCV,
+Pillow, CIEDE2000
+
+Pixel math decides
+measurable things;
+vision model explains
+
+axe-style rules, textstat
+
+Rule-based; each
+finding names the
+WCAG criterion
+
+Evidence fetcher
+
+No evidence, no
+finding
+
+Rule and fact context
+
+Never edits the
+original; outputs
+tracked-change
+suggestions
+
+Embedding similarity,
+claim re-extraction,
+LLM judge
+
+Rejects fixes that
+introduce
+unsupported claims
+
+Policy config
+
+SQL aggregates,
+clustering
+
+High-risk always
+requires a human
+Reviewer
+
+Read-only on data
+
+Override stats, rule-pair
+contradiction check
+
+Draft only; Admin
+approves
+
+Page 6 of 18
+
+BrandGuard AI — Implementation Plan to Win the Inkloom AI Challenge
+
+6.3 Finding schema (the contract every agent returns)
+
+Finding {
+  id, content_id, content_version
+
+  category: tone | terminology | messaging | claim | visual | accessibility
+  severity: info | warning | critical
+
+  location: text span (start, end) | page + bbox | image region
+  detector: deterministic | llm
+
+  evidence: [ { type: guideline | fact | asset, source_id, source_version, 
+page_or_clause, quote } ]
+
+  explanation: plain-language why
+  suggestions: [ { text, rationale, intent_check: pass | fail } ]
+
+  confidence: 0–1, calibrated on the gold set
+  status: open | accepted | edited | rejected | overridden
+
+  decision: { by_user, role, reason, timestamp }
+}
+
+Validate every agent output with Pydantic. Reject and repair on schema failure. A finding
+with an empty evidence list is dropped by the Verifier.
+
+6.4 Claim verification pipeline (your strongest technical story)
+
+1. Extract atomic claims and classify them: statistical, superlative ('best', '#1'),
+
+comparative, guarantee, regulatory, testimonial, pricing or date-bound.
+
+2. Retrieve candidate facts from the registry. Each fact has value, source, owner,
+
+valid_from, valid_to and approval status.
+
+3. Judge against the facts; produce a verdict with the matching fact id.
+
+4. Date logic catches outdated claims (fact expired or superseded).
+
+5. Anything promotional with no matching fact becomes Unsupported, with a prompt
+
+for the creator to attach substantiation.
+
+6. Never guess. If retrieval confidence is low, the agent says 'insufficient evidence' and
+
+routes to a human.
+
+6.5 Intent-preserving fixes
+
+Fix Agent receives the creator's stated purpose (one field on submission), the finding
+
+and the evidence.
+
+Generates up to three options: minimal edit, tone-matched rewrite, and a 'keep
+wording, add substantiation' option.
+
+Page 7 of 18
+
+BrandGuard AI — Implementation Plan to Win the Inkloom AI Challenge
+
+Intent Guard checks semantic similarity to the original, re-runs claim extraction (no
+new claims allowed), and re-runs the failed rule. Only passing options are shown.
+
+UI shows a word-level diff. Accept, edit or reject; nothing applies without a click.
+
+6.6 Guideline Health (insight differentiator)
+
+Ambiguity score per rule = override rate + reviewer disagreement + share of low-
+confidence verdicts + conflict hits (two rules retrieved with opposing directives).
+
+Dashboards: top recurring violations by rule, team, agency, channel; repeat offenders
+
+by category (framed as coaching, not blame); time-to-approval; first-pass approval
+rate; cost per review.
+
+Clarifier agent drafts rewritten rules with before and after examples; Admin
+
+approves, which creates a new Brand Pack version and re-baselines the metrics.
+
+6.7 Brand Guard API and MCP server
+
+Expose  check_content ,  get_rules(channel) ,  lookup_fact(query)  and  list_assets
+
+through REST (API keys, scoped per workspace) and an MCP server. Demo: an external AI
+assistant asks for rules, drafts a post, pre-checks it, and the draft lands in the review
+queue already tagged as AI-generated.
+
+7. Technology stack
+
+Frontend
+
+Layer
+
+Choice
+
+Why
+
+Framework
+
+Styling and UI
+
+Next.js (App Router) +
+TypeScript
+
+SSR, routing, one language for
+the UI
+
+Tailwind CSS, shadcn/ui, Radix,
+Framer Motion
+
+Editor
+
+Tiptap (ProseMirror)
+
+Polished and accessible by
+default (disclose shadcn as a
+template)
+
+Inline finding highlights,
+anchored comments, tracked-
+change suggestions
+
+Document and
+image views
+
+PDF.js (react-pdf), Konva canvas
+overlay
+
+Bounding-box findings on pages
+and images
+
+Page 8 of 18
+
+BrandGuard AI — Implementation Plan to Win the Inkloom AI Challenge
+
+Layer
+
+Data
+
+Live updates
+
+Choice
+
+Why
+
+TanStack Query, Zustand
+
+Server state and local UI state
+
+Server-Sent Events for agent
+progress; Supabase Realtime for
+comments and presence
+
+Findings stream in as agents
+finish
+
+Charts and graphs
+
+Recharts or visx; React Flow for
+the agent trace view
+
+Insights dashboard and
+explainability
+
+Quality
+
+axe-core, Playwright, Storybook
+
+The product must pass its own
+accessibility checks
+
+Page 9 of 18
+
+BrandGuard AI — Implementation Plan to Win the Inkloom AI Challenge
+
+Backend
+
+Layer
+
+API
+
+Choice
+
+Why
+
+Python 3.12, FastAPI, Pydantic v2
+
+Typed, async, fast to ship
+
+Agent
+orchestration
+
+LangGraph
+
+Model gateway
+
+LiteLLM
+
+Structured
+output
+
+Pydantic schemas with Instructor-
+style validation
+
+Database
+
+PostgreSQL + pgvector
+
+Jobs and cache
+
+Redis with ARQ (or Celery)
+
+Parallel nodes, retries, human
+interrupts, persisted state
+
+Provider-agnostic routing and
+fallback; supports a local model
+for confidential mode
+
+Reliable JSON, auto-repair
+
+Relational, vector, and row-level
+security in one store
+
+Background reviews, rate limiting,
+result cache keyed by content
+hash plus Brand Pack version
+
+File storage
+
+Supabase Storage, S3 or R2 with
+signed URLs
+
+Confidential assets, short-lived
+access
+
+Auth and RBAC
+
+Supabase Auth (or Auth.js) +
+Postgres RLS
+
+Tenant and role isolation enforced
+in the database
+
+Observability
+
+Langfuse (traces, cost), Sentry,
+OpenTelemetry
+
+Explainability and debugging
+
+AI and processing
+
+Need
+
+LLM tiers
+
+Choice
+
+Fast cheap model for classification and first pass;
+stronger model for Verifier and Fix Agent; vision-
+capable model for images. Route through LiteLLM
+(Claude, Gemini, OpenAI-class models)
+
+Embeddings and rerank Hosted embedding model or BGE-class open
+
+model; cross-encoder reranker for retrieval
+
+Page 10 of 18
+
+BrandGuard AI — Implementation Plan to Win the Inkloom AI Challenge
+
+Need
+
+Retrieval
+
+Parsing
+
+Choice
+
+Hybrid BM25 + vector, filtered by channel and
+Brand Pack version
+
+PyMuPDF, python-docx, python-pptx (stretch),
+Tesseract or vision OCR
+
+NLP
+
+spaCy PhraseMatcher, textstat for readability
+
+Visual math
+
+Privacy
+
+OpenCV, Pillow, colorthief, scikit-image
+(CIEDE2000, WCAG contrast)
+
+Microsoft Presidio for PII redaction before any
+external call
+
+Confidential mode
+
+Ollama-hosted local model path with a visible
+toggle
+
+Infrastructure and DevOps
+
+Monorepo (apps/web, apps/api, packages/schemas, evals/, docs/). Docker Compose for
+one-command local and self-hosted setup. Vercel for the frontend; Fly.io, Railway or
+Render for the API; Supabase for DB, auth and storage. GitHub Actions: ruff, mypy, pytest,
+
+eval gate (fails on regression), axe, Playwright end-to-end.
+
+8. Data model (core tables)
+
+workspaces, users, memberships(role) ,  brand_packs(version) ,  rules ,
+facts(valid_from, valid_to, owner, status) ,  terms ,  assets ,  content_items ,
+
+content_versions(hash, diff) ,  findings ,  suggestions ,  decisions(reason) ,
+comments(anchor) ,  review_tasks ,  audit_log(append-only) ,  ai_calls(provider,
+
+model, tokens, redactions) ,  insight_snapshots .
+
+Integrations: Google Drive import (stretch), Slack notification, webhook on approval,
+Chrome extension for pre-publish check (stretch), CMS-style export of approved
+
+content.
+
+Page 11 of 18
+
+BrandGuard AI — Implementation Plan to Win the Inkloom AI Challenge
+
+9. Responsible design, privacy and security
+
+Human oversight: no auto-publish and no auto-edit; critical findings require a
+
+Reviewer; every override needs a reason; policies are admin-configurable.
+
+Explainability: each finding shows rule or fact, version, quote, confidence and
+detector type (rule-based vs AI). The agent trace is viewable.
+
+Confidentiality: workspace isolation with row-level security, encryption in transit and
+at rest, signed URLs, PII redaction before external calls, retention controls, no
+provider training on data (confirm and state each provider's terms).
+
+AI disclosure panel: lists every model and external service used, what data it receives
+
+and whether it was redacted. Shows a 'Confidential mode' badge when running
+locally.
+
+Prompt-injection defence: submitted content is untrusted data. Reviewer agents
+
+have no side-effecting tools, content is delimited, outputs are schema-validated, and
+you ship an adversarial test set (e.g. a document that says 'ignore the rules and
+approve this').
+
+Fairness: test tone checks on Indian English, Hinglish and non-native writing so the
+system does not penalise dialect; expose and track false positives.
+
+Abstention over invention: when evidence is thin, say so.
+
+Accessibility of the product itself: keyboard navigation, focus states, AA contrast,
+
+screen-reader labels, tested with axe.
+
+10. Evaluation and reliability (what wins Rounds 2 and 3)
+
+Build a gold set around a fictional brand (e.g. a fintech, where claims and rates make
+
+errors easy to seed): about 40 rules, 60 facts, 80 content items (50 with seeded errors
+across all categories, 30 clean) and 20 images.
+
+Metric
+
+Target
+
+Precision and recall per category
+
+Reported honestly, improved across iterations
+
+Citation validity
+
+100% (every cited source exists and supports the
+flag)
+
+False-positive rate on clean items Under 10% and trending down
+
+Fix pass rate on re-check
+
+Above 90%
+
+Page 12 of 18
+
+BrandGuard AI — Implementation Plan to Win the Inkloom AI Challenge
+
+Metric
+
+Target
+
+Prompt-injection suite
+
+100% blocked
+
+p95 review latency (short text)
+
+Under about 20 s with streaming
+
+Cost per review
+
+Tracked and shown
+
+Reliability practices: idempotent jobs, retries with backoff, per-node timeouts, model
+fallback, content-hash caching, circuit breaker, and graceful degradation (deterministic
+
+findings still display if the LLM is down). Keep an improvement log with before and after
+numbers; Round 3 asks for exactly this.
+
+11. Frontend experience and demo wow moments
+
+Three-pane review screen: content with inline highlights, findings list grouped by
+severity, evidence drawer.
+
+Streaming review: agents appear as a live checklist ('Terminology ✓, Claims
+running...') so the wait feels intelligent.
+
+Evidence drawer: click a finding to see the guideline page or fact record side by side
+with the highlighted span.
+
+Tracked-change fixes with accept, edit, reject and an Intent Guard badge.
+
+Workflow board: Kanban by state, role-based views, comment threads anchored to
+spans, revision timeline with diffs.
+
+Guideline Health dashboard: heatmap of rules by ambiguity, one-click 'Draft
+clarification.'
+
+Admin console: Brand Pack editor with source page previews, AI disclosure panel,
+policy settings.
+
+Design system: a calm, confident visual identity; dark and light mode; skeleton
+loaders; empty states that teach.
+
+12. Step-by-step execution plan
+
+Assumes a build window of about three weeks. Compress or stretch proportionally and
+align the checkpoints to the organiser's actual round dates. Round 2 readiness = Steps 1–
+7 complete.
+
+Page 13 of 18
+
+BrandGuard AI — Implementation Plan to Win the Inkloom AI Challenge
+
+Step
+
+Build
+
+Done when
+
+0 (before
+window)
+
+Evidence pack, plan document,
+architecture and workflow
+diagrams, wireframes, fictional-
+brand concept, named three
+improvements, repo kept empty
+
+Round 1 submission is ready
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9
+
+10
+
+Monorepo, CI, Docker Compose,
+Postgres schema, auth, roles, RLS
+
+Login works with four roles; CI
+green
+
+Walking skeleton: create Brand Pack
+manually, paste text, deterministic
+terminology check, findings shown
+in UI
+
+End-to-end thin slice runs on the
+deployed link
+
+Guideline Compiler, fact registry,
+hybrid retrieval, reranker
+
+Upload PDF, review compiled rules,
+approve, retrieve with citations
+
+LangGraph pipeline: Context, Tone,
+Messaging, Claims agents, Verifier,
+schema validation, SSE streaming
+
+Seeded text produces cited
+findings; uncited flags dropped
+
+Fix Agent plus Intent Guard,
+tracked-change UI, delta re-review
+
+Accepting a fix passes re-check
+without new claims
+
+Workflow: submit, assign, comment,
+approve, revision history, audit log,
+role-based review queue
+
+Gold set v1 and eval harness in CI;
+first user tests (5+ people); record
+feedback
+
+A full creator-to-reviewer cycle
+with a hashed approval certificate
+
+Metrics table exists; Round 2
+package assembled
+
+PDF and DOCX ingestion, image
+ingestion, bounding-box findings
+
+Review a brochure PDF and a social
+image
+
+Visual agent (palette, logo, safe
+zones) and Accessibility agent
+(WCAG)
+
+Insights and Guideline Health
+dashboards, ambiguity score,
+Clarifier
+
+Measurable checks pass on seeded
+images
+
+Override data surfaces an
+ambiguous rule and drafts a fix
+
+Page 14 of 18
+
+BrandGuard AI — Implementation Plan to Win the Inkloom AI Challenge
+
+Step
+
+Build
+
+Done when
+
+11
+
+12
+
+13
+
+14
+
+15
+
+Brand Guard REST API and MCP
+server; Slack or webhook
+notifications
+
+Privacy hardening: Presidio
+redaction, AI disclosure panel,
+Confidential mode, injection test
+suite
+
+Reliability pass: retries, fallback,
+caching, load test, error states;
+accessibility audit of the product
+
+Second user-testing round, fix top
+issues, record before and after
+metrics
+
+Docs (README, architecture,
+model and data card, limitations,
+roadmap), demo video,
+presentation, contribution
+statements
+
+External AI tool pre-checks a draft
+
+Adversarial suite passes;
+disclosure panel accurate
+
+No unhandled failure in a 50-item
+batch run
+
+Improvement log completed
+
+Round 3 package is ready,
+rehearsed twice
+
+Scope rule: if a step slips by more than a day, cut from stretch scope (URL ingestion, Drive
+import, PPTX, Chrome extension), never from the core workflow or the three named
+
+improvements.
+
+13. Team roles and contribution tracking
+
+Example for four people; merge roles for smaller teams.
+
+Role
+
+Owns
+
+Agent and AI lead
+
+LangGraph pipeline, agents, prompts, Verifier,
+Intent Guard, model routing
+
+Backend and data lead
+
+FastAPI, schema, RLS, retrieval, jobs, API and MCP,
+deployment
+
+Page 15 of 18
+
+BrandGuard AI — Implementation Plan to Win the Inkloom AI Challenge
+
+Role
+
+Owns
+
+Frontend and UX lead
+
+Review UI, Tiptap, evidence drawer, workflow
+board, dashboards, accessibility
+
+Evaluation, QA and docs lead Gold set, eval harness, user testing, security tests,
+
+documentation, demo video
+
+Keep a  CONTRIBUTIONS.md  updated weekly, use pull requests with clear authorship, and
+make sure every member can demo and explain their module. Judges may ask anyone to
+justify a decision.
+
+14. Scope: MVP, stretch, roadmap
+
+Must ship (MVP): Brand Pack import and compile, text and PDF and image review, six
+detection categories, evidence citations, Verifier, fixes with Intent Guard, roles and
+approval workflow, comments, revision history, audit log, basic insights, AI disclosure.
+
+Strong stretch: Guideline Health with Clarifier, Brand Guard API and MCP,
+Confidential mode, DOCX, Slack notifications.
+
+Roadmap (state honestly in Round 3): video and audio review, Chrome and Figma
+plugins, CMS integrations, multi-brand and multi-language packs, SSO and SCIM, fine-
+tuned tone classifiers, on-prem deployment.
+
+Known limitations to disclose: font identification is best-effort; subjective tone
+judgments need human review; accuracy depends on guideline quality; non-English
+coverage is limited.
+
+15. Risk register
+
+Risk
+
+Mitigation
+
+LLM hallucinated flags
+
+Messy guideline PDFs
+
+Latency and cost
+
+Evidence-required schema, Verifier,
+abstention, gold-set regression gate
+
+Human-approved rule compilation; manual
+rule entry fallback
+
+Parallel agents, cheap-model first pass,
+caching, streaming UI
+
+Page 16 of 18
+
+BrandGuard AI — Implementation Plan to Win the Inkloom AI Challenge
+
+Risk
+
+Mitigation
+
+API rate limits or outage
+
+Model fallback via LiteLLM, deterministic-
+only degraded mode, seeded demo data
+
+Scope creep
+
+Written cut line, weekly scope review
+
+Disqualification (pre-window work,
+undisclosed reuse)
+
+Empty repo until window, honest commit
+history, disclosure file
+
+Demo failure
+
+Recorded backup video, pre-warmed cache,
+offline-capable demo account
+
+16. Submission checklists
+
+Round 1 — The Plan: problem definition with evidence; personas and setting; survey and
+interview summaries; solution, value proposition and workflow diagram; three named
+improvements; features, stack, integrations, data sources; responsible-design section;
+development plan, roles, expected impact; MVP vs stretch cut line.
+
+Round 2 — The Build: end-to-end working flow on a deployed link; public repo with
+
+history; architecture diagram and decision log; list of APIs, models, datasets, libraries and
+templates; user-testing evidence; per-member contribution statement; progress-vs-plan
+table; each of the three improvements demonstrated.
+
+Round 3 — The Finish: final product and repo; demo video (3–5 min) and live-demo
+backup; concise deck or report; eval results and improvement log; privacy, security,
+accessibility and responsible-AI explanation; limitations and roadmap; complete
+
+participant and contribution details.
+
+17. Five-minute demo script
+
+1. Hook (20 s): one real number from your survey and one public case study.
+
+2. Brand Pack (40 s): admin imports guidelines; compiled rules show source pages;
+
+approve.
+
+3. Review (90 s): creator pastes a LinkedIn post and attaches an image. Findings stream
+in. Click a claim flagged as Outdated and show the expired fact record beside the
+highlighted sentence. Show a contrast failure and a banned term.
+
+4. Fix (40 s): accept a tracked-change suggestion; Intent Guard badge; delta re-review
+
+passes.
+
+Page 17 of 18
+
+BrandGuard AI — Implementation Plan to Win the Inkloom AI Challenge
+
+5. Workflow (40 s): manager comment, reviewer approval, revision diff, audit trail.
+
+6. Guideline Health (40 s): a rule overridden 60% of the time; Clarifier drafts better
+
+wording; admin approves.
+
+7. Trust (30 s): AI disclosure panel, Confidential mode, a prompt-injection document
+
+being ignored.
+
+8. Ecosystem (20 s): external AI assistant calls the MCP server before drafting.
+
+9. Close: metrics table and roadmap.
+
+18. Winning habits
+
+Show numbers, not adjectives: every claim of quality gets a metric.
+
+Make the first 60 seconds of the demo impossible to ignore.
+
+Keep the repo and commit history readable and honest.
+
+Prefer one deeply reliable workflow over ten shallow features.
+
+Disclose everything: AI tools, templates, services, reused patterns.
+
+Rehearse the Q&A; each member should be able to explain any part of the
+architecture in 60 seconds.
+
+Page 18 of 18
+
+
