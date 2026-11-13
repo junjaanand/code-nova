@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Sidebar } from "@/components/layout/Sidebar";
-import { EvaluatorBar } from "@/components/layout/EvaluatorBar";
 import { PersonaProvider } from "@/lib/personaContext";
 
 export const metadata: Metadata = {
@@ -20,7 +19,6 @@ export default function RootLayout({
         <PersonaProvider>
           <Sidebar />
           <main className="flex-1 ml-64 min-h-screen flex flex-col">
-            <EvaluatorBar />
             {children}
           </main>
         </PersonaProvider>

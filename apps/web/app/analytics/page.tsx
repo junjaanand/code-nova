@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { UnifiedHeader } from "@/components/layout/UnifiedHeader";
 import { AnalyticsView } from "@/components/analytics/AnalyticsView";
 import { api } from "@/lib/api";
 
@@ -31,8 +32,11 @@ export default function AnalyticsPage() {
   }
 
   return (
-    <div className="flex-1 overflow-y-auto bg-slate-50 dark:bg-slate-950">
-      <AnalyticsView data={analyticsData} />
+    <div className="flex flex-col h-screen overflow-hidden bg-slate-50 dark:bg-slate-950">
+      <UnifiedHeader />
+      <div className="flex-1 overflow-y-auto">
+        <AnalyticsView data={analyticsData} />
+      </div>
     </div>
   );
 }

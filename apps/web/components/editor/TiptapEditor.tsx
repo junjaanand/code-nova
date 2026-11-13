@@ -2,7 +2,7 @@
 
 import React, { useMemo } from "react";
 import { formatSeverityColor } from "@/lib/utils";
-import { Check, X, ShieldAlert, Sparkles, MessageSquare, Lock } from "lucide-react";
+import { Lock, FileText, CheckCircle2 } from "lucide-react";
 
 interface TiptapEditorProps {
   content: string;
@@ -71,128 +71,80 @@ export function TiptapEditor({
     return segs;
   }, [content, findings]);
 
-  const selectedFinding = findings?.find((f) => f.id === selectedFindingId);
-
   return (
-    <div className="flex flex-col h-full bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
-      {/* Editor Header Toolbar */}
-      <div className="h-12 border-b border-slate-200 dark:border-slate-800 px-5 flex items-center justify-between bg-slate-50/70 dark:bg-slate-900/70">
+    <div className="flex flex-col h-full bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm overflow-hidden">
+      {/* Editor Sub-header */}
+      <div className="h-11 border-b border-slate-100 dark:border-slate-800 px-6 flex items-center justify-between bg-slate-50/50 dark:bg-slate-900/50">
         <div className="flex items-center gap-3">
-          <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-            Review Canvas (Tiptap / ProseMirror)
-          </span>
-          <span className="text-xs text-slate-400">
-            {findings.length} brand findings detected
+          <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300">
+            <FileText className="w-3.5 h-3.5 text-blue-600" />
+            <span>Document Canvas</span>
+          </div>
+          <span className="text-[11px] text-slate-400">
+            • {findings.length} brand citations detected
           </span>
         </div>
-        <div className="flex items-center gap-3 text-xs">
+
+        {/* Highlight Legend */}
+        <div className="flex items-center gap-3 text-[11px] font-medium text-slate-500">
           <span className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-red-500 inline-block"></span>
-            Critical
+            <span className="w-2 h-2 rounded-full bg-red-500 inline-block"></span>
+            Critical Violation
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block"></span>
+            <span className="w-2 h-2 rounded-full bg-amber-500 inline-block"></span>
             Warning
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-blue-500 inline-block"></span>
-            Info
+            <span className="w-2 h-2 rounded-full bg-blue-500 inline-block"></span>
+            Notice
           </span>
         </div>
       </div>
 
-      {/* Interactive Prose Mirror Content Body */}
+      {/* Focused Writing Canvas */}
       <div className="p-8 flex-1 overflow-y-auto">
-        <div className="max-w-3xl mx-auto font-sans leading-relaxed text-base text-slate-800 dark:text-slate-100 relative">
+        <div className="max-w-3xl mx-auto">
           {readOnly && (
-            <div className="mb-4 p-2.5 rounded-lg bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-700/60 flex items-center justify-between text-xs text-amber-900 dark:text-amber-200">
+            <div className="mb-4 p-2.5 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-700/60 flex items-center justify-between text-xs text-amber-900 dark:text-amber-200">
               <span className="flex items-center gap-1.5 font-bold">
                 <Lock className="w-3.5 h-3.5 text-amber-600" /> Auditor Read-Only Canvas
               </span>
               <span className="text-[10px] uppercase font-mono text-amber-700 dark:text-amber-400">
-                Tamper-Evident Mode Active
+                Non-Repudiation Verified
               </span>
             </div>
           )}
-          {segments.map((seg, idx) => {
-            if (!seg.isFinding) {
-              return <span key={idx}>{seg.text}</span>;
-            }
 
-            const f = seg.finding;
-            const isSelected = f.id === selectedFindingId;
-            const colors = formatSeverityColor(f.severity);
+          <div className="font-sans leading-relaxed text-base text-slate-800 dark:text-slate-100 p-6 bg-slate-50/50 dark:bg-slate-800/30 rounded-xl border border-slate-100 dark:border-slate-800/60 min-h-[480px]">
+            {segments.map((seg, idx) => {
+              if (!seg.isFinding) {
+                return <span key={idx}>{seg.text}</span>;
+              }
 
-            return (
-              <mark
-                key={idx}
-                onClick={() => onSelectFinding(f.id)}
-                className={`relative px-1 py-0.5 rounded transition-all font-medium ${colors.mark} ${
-                  isSelected ? "ring-2 ring-blue-600 shadow-sm" : ""
-                } ${f.status === "accepted" ? "line-through opacity-60 bg-emerald-100" : ""}`}
-                title={`[${f.severity.toUpperCase()}] ${f.explanation}`}
-              >
-                {seg.text}
-              </mark>
-            );
-          })}
-        </div>
+              const f = seg.finding;
+              const isSelected = f.id === selectedFindingId;
+              const colors = formatSeverityColor(f.severity);
 
-        {/* Floating Quick Action Card when finding selected */}
-        {selectedFinding && selectedFinding.suggestions && selectedFinding.suggestions.length > 0 && (
-          <div className="mt-8 max-w-2xl mx-auto p-4 rounded-xl border border-blue-200 dark:border-blue-900 bg-blue-50/60 dark:bg-blue-950/40 backdrop-blur-sm shadow-md animate-in fade-in slide-in-from-bottom-2">
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-blue-600" />
-                <span className="text-xs font-bold text-blue-900 dark:text-blue-300">
-                  AI Fix Suggestion (Intent Verified)
-                </span>
-                <span className="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-semibold">
-                  Intent Guard: PASS
-                </span>
-              </div>
-              <button
-                onClick={() => onSelectFinding("")}
-                className="text-slate-400 hover:text-slate-600 text-xs"
-              >
-                Dismiss
-              </button>
-            </div>
-
-            <p className="mt-2 text-sm text-slate-700 dark:text-slate-300">
-              Replace with:{" "}
-              <strong className="text-blue-700 dark:text-blue-400 bg-white dark:bg-slate-900 px-2 py-0.5 rounded border border-blue-200 dark:border-blue-800">
-                "{selectedFinding.suggestions[0].text}"
-              </strong>
-            </p>
-            <p className="mt-1 text-xs text-slate-500 italic">
-              Rationale: {selectedFinding.suggestions[0].rationale}
-            </p>
-
-            <div className="mt-3 flex items-center gap-2">
-              {readOnly ? (
-                <span className="px-3 py-1.5 rounded-lg bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 text-xs font-semibold flex items-center gap-1.5 border border-amber-300">
-                  <Lock className="w-3.5 h-3.5" /> Edits Disabled in Auditor Mode
-                </span>
-              ) : (
-                <button
-                  onClick={() => onAcceptFix(selectedFinding.id)}
-                  className="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm transition-colors"
+              return (
+                <mark
+                  key={idx}
+                  onClick={() => onSelectFinding(f.id)}
+                  className={`relative px-1 py-0.5 rounded cursor-pointer transition-all font-medium ${colors.mark} ${
+                    isSelected ? "ring-2 ring-blue-600 shadow-sm" : ""
+                  } ${f.status === "accepted" ? "line-through opacity-60 bg-emerald-100 text-emerald-900" : ""}`}
+                  title={`[${f.severity.toUpperCase()}] ${f.explanation} (Click to inspect evidence)`}
                 >
-                  <Check className="w-3.5 h-3.5" /> Accept Fix (Tracked Change)
-                </button>
-              )}
-              {!readOnly && (
-                <button
-                  onClick={() => onRejectFinding(selectedFinding.id)}
-                  className="px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-medium flex items-center gap-1.5 transition-colors"
-                >
-                  <X className="w-3.5 h-3.5" /> Reject Finding
-                </button>
-              )}
-            </div>
+                  {seg.text}
+                </mark>
+              );
+            })}
           </div>
-        )}
+
+          <p className="mt-4 text-center text-xs text-slate-400">
+            💡 Click any highlighted phrase to inspect its brand guideline rule, factual citation, and intent-safe fix in the right drawer.
+          </p>
+        </div>
       </div>
     </div>
   );

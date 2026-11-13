@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { 
   BookOpen, 
   Sparkles, 
@@ -11,12 +11,34 @@ import {
   FileText,
   Plus,
   RefreshCw,
-  ArrowRight
+  ArrowRight,
+  Search,
+  ChevronRight,
+  ShieldCheck,
+  Check,
+  X,
+  Copy,
+  SlidersHorizontal,
+  ExternalLink
 } from "lucide-react";
 import { api } from "@/lib/api";
 
-export function BrandPackView({ packData }: { packData: any }) {
+interface BrandPackProps {
+  packData: any;
+}
+
+export function BrandPackView({ packData }: BrandPackProps) {
   const [activeTab, setActiveTab] = useState<"rules" | "facts" | "terms" | "assets">("rules");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState<string>("all");
+  
+  // Selected items for Master-Detail inspection
+  const [selectedRuleId, setSelectedRuleId] = useState<string>("r_tone_001");
+  const [selectedFactId, setSelectedFactId] = useState<string>("fact_pricing_enterprise");
+  const [selectedTermId, setSelectedTermId] = useState<string>("term_brand_name");
+  const [selectedAssetId, setSelectedAssetId] = useState<string>("asset_logo_primary");
+
+  // Clarifier & Compiler states
   const [selectedRuleClarification, setSelectedRuleClarification] = useState<any | null>(null);
   const [isClarifying, setIsClarifying] = useState(false);
   const [showCompilerModal, setShowCompilerModal] = useState(false);
@@ -24,10 +46,52 @@ export function BrandPackView({ packData }: { packData: any }) {
   const [compileResult, setCompileResult] = useState<any | null>(null);
   const [isCompiling, setIsCompiling] = useState(false);
 
-  const rules = packData?.rules || [];
-  const facts = packData?.facts || [];
-  const terms = packData?.terms || [];
-  const assets = packData?.assets || [];
+  const rules: any[] = packData?.rules || [];
+  const facts: any[] = packData?.facts || [];
+  const terms: any[] = packData?.terms || [];
+  const assets: any[] = packData?.assets || [];
+
+  // Filtered Rules
+  const filteredRules = useMemo(() => {
+    return rules.filter((r) => {
+      const matchSearch = 
+        r.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        r.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        r.description.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchCat = categoryFilter === "all" || r.category === categoryFilter;
+      return matchSearch && matchCat;
+    });
+  }, [rules, searchQuery, categoryFilter]);
+
+  // Filtered Facts
+  const filteredFacts = useMemo(() => {
+    return facts.filter((f) => 
+      f.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      f.claim_type.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      f.value.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [facts, searchQuery]);
+
+  // Filtered Terms
+  const filteredTerms = useMemo(() => {
+    return terms.filter((t) => 
+      t.preferred_term.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      t.banned_variants?.some((v: string) => v.toLowerCase().includes(searchQuery.toLowerCase()))
+    );
+  }, [terms, searchQuery]);
+
+  // Filtered Assets
+  const filteredAssets = useMemo(() => {
+    return assets.filter((a) => 
+      a.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      a.asset_type.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [assets, searchQuery]);
+
+  const activeRule = rules.find((r) => r.id === selectedRuleId) || rules[0];
+  const activeFact = facts.find((f) => f.id === selectedFactId) || facts[0];
+  const activeTerm = terms.find((t) => t.id === selectedTermId) || terms[0];
+  const activeAsset = assets.find((a) => a.id === selectedAssetId) || assets[0];
 
   const handleClarify = async (ruleId: string) => {
     setIsClarifying(true);
@@ -54,17 +118,6 @@ The consumer offering 'NovaCard' was officially retired in May 2026. All new ent
 Regulatory Compliance:
 Under RBI fintech regulations, never guarantee financial returns or declare deposit yields as '100% risk-free'.`;
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const text = event.target?.result as string;
-      if (text) setCompilerText(text);
-    };
-    reader.readAsText(file);
-  };
-
   const handleCompile = async () => {
     if (!compilerText.trim()) return;
     setIsCompiling(true);
@@ -79,366 +132,536 @@ Under RBI fintech regulations, never guarantee financial returns or declare depo
     }
   };
 
+  const getCategoryBadge = (cat: string) => {
+    switch (cat?.toLowerCase()) {
+      case "tone":
+        return "bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 border-blue-200 dark:border-blue-800";
+      case "claim":
+        return "bg-purple-50 text-purple-700 dark:bg-purple-950/60 dark:text-purple-300 border-purple-200 dark:border-purple-800";
+      case "terminology":
+        return "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800";
+      case "compliance":
+        return "bg-red-50 text-red-700 dark:bg-red-950/60 dark:text-red-300 border-red-200 dark:border-red-800";
+      default:
+        return "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 border-slate-200 dark:border-slate-700";
+    }
+  };
+
   return (
-    <div className="p-8 max-w-7xl mx-auto space-y-8">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
+    <div className="flex flex-col h-[calc(100vh-3.5rem)] bg-slate-50 dark:bg-slate-950 overflow-hidden">
+      {/* Brand Pack Top Sub-bar */}
+      <div className="h-14 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 flex items-center justify-between shrink-0">
+        <div className="flex items-center gap-3">
           <div className="flex items-center gap-2">
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
-              Brand Pack & Knowledge Base
+            <BookOpen className="w-4 h-4 text-blue-600" />
+            <h2 className="text-sm font-bold text-slate-900 dark:text-white">
+              Brand Pack Knowledge Base
             </h2>
-            <span className="bg-blue-100 text-blue-800 text-xs px-2.5 py-0.5 rounded-full font-bold">
+            <span className="bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300 text-[10px] font-bold px-2 py-0.5 rounded-full border border-blue-200 dark:border-blue-800">
               v{packData?.brand_pack?.version || 2} Active
             </span>
           </div>
-          <p className="text-sm text-slate-500 mt-1">
-            Governed rules, facts, terminology, and visual assets enforced across all pre-publication reviews.
-          </p>
+
+          <div className="h-4 w-px bg-slate-200 dark:bg-slate-800 mx-1"></div>
+
+          {/* Section Tabs */}
+          <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-0.5 rounded-lg text-xs font-semibold">
+            <button
+              onClick={() => setActiveTab("rules")}
+              className={`px-3 py-1 rounded-md transition-all ${
+                activeTab === "rules"
+                  ? "bg-white dark:bg-slate-900 text-blue-600 shadow-sm"
+                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900"
+              }`}
+            >
+              Rules ({rules.length})
+            </button>
+            <button
+              onClick={() => setActiveTab("facts")}
+              className={`px-3 py-1 rounded-md transition-all ${
+                activeTab === "facts"
+                  ? "bg-white dark:bg-slate-900 text-blue-600 shadow-sm"
+                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900"
+              }`}
+            >
+              Verified Facts ({facts.length})
+            </button>
+            <button
+              onClick={() => setActiveTab("terms")}
+              className={`px-3 py-1 rounded-md transition-all ${
+                activeTab === "terms"
+                  ? "bg-white dark:bg-slate-900 text-blue-600 shadow-sm"
+                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900"
+              }`}
+            >
+              Terminology ({terms.length})
+            </button>
+            <button
+              onClick={() => setActiveTab("assets")}
+              className={`px-3 py-1 rounded-md transition-all ${
+                activeTab === "assets"
+                  ? "bg-white dark:bg-slate-900 text-blue-600 shadow-sm"
+                  : "text-slate-600 dark:text-slate-400 hover:text-slate-900"
+              }`}
+            >
+              Assets ({assets.length})
+            </button>
+          </div>
         </div>
 
+        {/* Action: Compile Guidelines with AI */}
         <button
           onClick={() => setShowCompilerModal(true)}
-          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg flex items-center gap-2 shadow-sm transition-colors"
+          className="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm shadow-blue-500/20 transition-all cursor-pointer"
         >
-          <UploadCloud className="w-4 h-4" /> Compile Guidelines (PDF / Text)
+          <Sparkles className="w-3.5 h-3.5" />
+          <span>Compile Guidelines (AI)</span>
         </button>
       </div>
 
-      {/* Tabs */}
-      <div className="flex items-center gap-3 border-b border-slate-200 dark:border-slate-800">
-        {[
-          { key: "rules", label: `Guidelines (${rules.length})` },
-          { key: "facts", label: `Approved Facts (${facts.length})` },
-          { key: "terms", label: `Terminology (${terms.length})` },
-          { key: "assets", label: `Brand Assets (${assets.length})` },
-        ].map((t) => (
-          <button
-            key={t.key}
-            onClick={() => setActiveTab(t.key as any)}
-            className={`pb-3 text-sm font-semibold transition-all border-b-2 px-2 ${
-              activeTab === t.key
-                ? "border-blue-600 text-blue-600 dark:text-blue-400"
-                : "border-transparent text-slate-500 hover:text-slate-800"
-            }`}
-          >
-            {t.label}
-          </button>
-        ))}
-      </div>
+      {/* Main Master-Detail Workspace */}
+      <div className="flex-1 flex overflow-hidden">
+        {/* ================= LEFT PANE: Compact Scannable List ================= */}
+        <div className="w-[380px] lg:w-[420px] border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col shrink-0">
+          {/* Search & Category Filter */}
+          <div className="p-3 border-b border-slate-100 dark:border-slate-800 space-y-2">
+            <div className="relative">
+              <Search className="w-3.5 h-3.5 absolute left-2.5 top-2.5 text-slate-400" />
+              <input
+                type="text"
+                placeholder={`Search ${activeTab}...`}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full text-xs pl-8 pr-3 py-1.5 bg-slate-100 dark:bg-slate-800 border-none rounded-lg focus:ring-2 focus:ring-blue-500 text-slate-900 dark:text-slate-100"
+              />
+            </div>
 
-      {/* RULES VIEW */}
-      {activeTab === "rules" && (
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {rules.map((r: any) => (
-              <div
-                key={r.id}
-                className="p-5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-3"
-              >
-                <div className="flex items-start justify-between gap-2">
+            {activeTab === "rules" && (
+              <div className="flex items-center gap-1 overflow-x-auto text-[11px] font-semibold text-slate-500 pb-0.5">
+                {["all", "tone", "claim", "terminology", "compliance"].map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setCategoryFilter(cat)}
+                    className={`px-2 py-0.5 rounded capitalize whitespace-nowrap transition-colors ${
+                      categoryFilter === cat
+                        ? "bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 font-bold"
+                        : "hover:bg-slate-100 dark:hover:bg-slate-800"
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* List Rows */}
+          <div className="flex-1 overflow-y-auto divide-y divide-slate-100 dark:divide-slate-800/60">
+            {activeTab === "rules" && (
+              <>
+                {filteredRules.map((r) => {
+                  const isSelected = r.id === selectedRuleId;
+                  return (
+                    <div
+                      key={r.id}
+                      onClick={() => {
+                        setSelectedRuleId(r.id);
+                        setSelectedRuleClarification(null);
+                      }}
+                      className={`p-3.5 cursor-pointer transition-all flex items-start justify-between gap-3 ${
+                        isSelected
+                          ? "bg-blue-50/70 dark:bg-blue-950/40 border-l-4 border-blue-600"
+                          : "hover:bg-slate-50 dark:hover:bg-slate-800/40"
+                      }`}
+                    >
+                      <div className="space-y-1 min-w-0">
+                        <div className="flex items-center gap-1.5">
+                          <span className="font-mono text-[10px] font-bold text-slate-500">
+                            {r.id}
+                          </span>
+                          <span className={`text-[10px] font-bold uppercase px-1.5 py-0.2 rounded border ${getCategoryBadge(r.category)}`}>
+                            {r.category}
+                          </span>
+                        </div>
+                        <h4 className="text-xs font-bold text-slate-900 dark:text-white truncate">
+                          {r.title}
+                        </h4>
+                        <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1">
+                          {r.description}
+                        </p>
+                      </div>
+
+                      <div className="shrink-0 flex flex-col items-end gap-1.5 pt-0.5">
+                        {r.ambiguity_score > 0.3 ? (
+                          <span className="w-2 h-2 rounded-full bg-amber-500 ring-2 ring-amber-200" title={`Ambiguity Score: ${r.ambiguity_score}`}></span>
+                        ) : (
+                          <span className="w-2 h-2 rounded-full bg-emerald-500" title="Healthy Guideline"></span>
+                        )}
+                        <ChevronRight className={`w-3.5 h-3.5 transition-transform ${isSelected ? "text-blue-600 translate-x-0.5" : "text-slate-300 dark:text-slate-600"}`} />
+                      </div>
+                    </div>
+                  );
+                })}
+              </>
+            )}
+
+            {activeTab === "facts" && (
+              <>
+                {filteredFacts.map((f) => {
+                  const isSelected = f.id === selectedFactId;
+                  return (
+                    <div
+                      key={f.id}
+                      onClick={() => setSelectedFactId(f.id)}
+                      className={`p-3.5 cursor-pointer transition-all flex items-start justify-between gap-3 ${
+                        isSelected
+                          ? "bg-purple-50/70 dark:bg-purple-950/40 border-l-4 border-purple-600"
+                          : "hover:bg-slate-50 dark:hover:bg-slate-800/40"
+                      }`}
+                    >
+                      <div className="space-y-1 min-w-0">
+                        <div className="flex items-center gap-1.5">
+                          <span className="font-mono text-[10px] font-bold text-slate-500">{f.id}</span>
+                          <span className="text-[10px] uppercase font-bold text-purple-700 bg-purple-50 dark:bg-purple-950 px-1.5 py-0.5 rounded">
+                            {f.claim_type}
+                          </span>
+                        </div>
+                        <h4 className="text-xs font-bold text-slate-900 dark:text-white truncate">
+                          {f.value}
+                        </h4>
+                        <p className="text-[11px] text-slate-400 truncate">
+                          Source: {f.source}
+                        </p>
+                      </div>
+                      <ChevronRight className={`w-3.5 h-3.5 shrink-0 ${isSelected ? "text-purple-600" : "text-slate-300"}`} />
+                    </div>
+                  );
+                })}
+              </>
+            )}
+
+            {activeTab === "terms" && (
+              <>
+                {filteredTerms.map((t) => {
+                  const isSelected = t.id === selectedTermId;
+                  return (
+                    <div
+                      key={t.id}
+                      onClick={() => setSelectedTermId(t.id)}
+                      className={`p-3.5 cursor-pointer transition-all flex items-start justify-between gap-3 ${
+                        isSelected
+                          ? "bg-emerald-50/70 dark:bg-emerald-950/40 border-l-4 border-emerald-600"
+                          : "hover:bg-slate-50 dark:hover:bg-slate-800/40"
+                      }`}
+                    >
+                      <div className="space-y-1 min-w-0">
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-xs font-bold text-emerald-700 dark:text-emerald-400">
+                            {t.preferred_term}
+                          </span>
+                          <span className="text-[10px] text-slate-400 font-mono">({t.scope})</span>
+                        </div>
+                        <p className="text-[11px] text-red-600 line-through truncate">
+                          {t.banned_variants?.join(", ")}
+                        </p>
+                      </div>
+                      <ChevronRight className={`w-3.5 h-3.5 shrink-0 ${isSelected ? "text-emerald-600" : "text-slate-300"}`} />
+                    </div>
+                  );
+                })}
+              </>
+            )}
+
+            {activeTab === "assets" && (
+              <>
+                {filteredAssets.map((a) => {
+                  const isSelected = a.id === selectedAssetId;
+                  return (
+                    <div
+                      key={a.id}
+                      onClick={() => setSelectedAssetId(a.id)}
+                      className={`p-3.5 cursor-pointer transition-all flex items-start justify-between gap-3 ${
+                        isSelected
+                          ? "bg-blue-50/70 dark:bg-blue-950/40 border-l-4 border-blue-600"
+                          : "hover:bg-slate-50 dark:hover:bg-slate-800/40"
+                      }`}
+                    >
+                      <div className="space-y-1 min-w-0">
+                        <span className="text-xs font-bold text-slate-900 dark:text-white truncate block">
+                          {a.name}
+                        </span>
+                        <span className="text-[10px] uppercase font-bold text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded">
+                          {a.asset_type}
+                        </span>
+                      </div>
+                      <ChevronRight className={`w-3.5 h-3.5 shrink-0 ${isSelected ? "text-blue-600" : "text-slate-300"}`} />
+                    </div>
+                  );
+                })}
+              </>
+            )}
+          </div>
+        </div>
+
+        {/* ================= RIGHT PANE: Live Detail Inspector ================= */}
+        <div className="flex-1 p-8 overflow-y-auto bg-slate-50/50 dark:bg-slate-950/50">
+          {activeTab === "rules" && activeRule && (
+            <div className="max-w-3xl space-y-6">
+              {/* Rule Header */}
+              <div className="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+                <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-mono font-bold text-slate-500 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">
-                      {r.id}
+                    <span className="font-mono text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-2 py-0.5 rounded">
+                      {activeRule.id}
                     </span>
-                    <span className="text-xs font-bold uppercase tracking-wider text-blue-600">
-                      {r.category}
+                    <span className={`text-xs font-bold uppercase px-2 py-0.5 rounded border ${getCategoryBadge(activeRule.category)}`}>
+                      {activeRule.category}
+                    </span>
+                    <span className="text-xs font-semibold text-slate-500">
+                      Severity: <strong>{activeRule.severity}</strong>
                     </span>
                   </div>
-                  {r.ambiguity_score > 0.3 ? (
-                    <span className="flex items-center gap-1 text-[11px] font-semibold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-full">
-                      <AlertTriangle className="w-3 h-3 text-amber-600" /> Ambiguity: {r.ambiguity_score}
+
+                  {activeRule.ambiguity_score > 0.3 ? (
+                    <span className="flex items-center gap-1.5 text-xs font-bold text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950 px-2.5 py-1 rounded-full border border-amber-200 dark:border-amber-800">
+                      <AlertTriangle className="w-3.5 h-3.5 text-amber-600" /> Ambiguity Index: {activeRule.ambiguity_score}
                     </span>
                   ) : (
-                    <span className="text-[11px] font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">
-                      Healthy
+                    <span className="flex items-center gap-1.5 text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> Healthy Guideline
                     </span>
                   )}
                 </div>
 
-                <h4 className="text-sm font-bold text-slate-900 dark:text-white">
-                  {r.title}
-                </h4>
-                <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                  {r.description}
-                </p>
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+                    {activeRule.title}
+                  </h3>
+                  <p className="mt-2 text-sm text-slate-700 dark:text-slate-300 leading-relaxed bg-slate-50 dark:bg-slate-800/60 p-3.5 rounded-lg border border-slate-100 dark:border-slate-800">
+                    {activeRule.description}
+                  </p>
+                </div>
 
-                <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                  <span className="text-[11px] text-slate-400">
-                    Source: {r.source_page || "Brand Core §1.1"}
+                {/* Ground Truth Citation */}
+                <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs">
+                  <span className="text-slate-500">
+                    Source Citation: <strong className="text-slate-800 dark:text-slate-200">{activeRule.source_page || "Brand Voice Core §1.1"}</strong>
                   </span>
                   <button
-                    onClick={() => handleClarify(r.id)}
-                    className="text-xs font-semibold text-blue-600 hover:text-blue-800 flex items-center gap-1"
+                    onClick={() => handleClarify(activeRule.id)}
+                    disabled={isClarifying}
+                    className="text-xs font-bold text-blue-600 hover:text-blue-800 dark:text-blue-400 flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-950/60 transition-colors"
                   >
-                    <Sparkles className="w-3 h-3" /> Clarify Rule
+                    <Sparkles className="w-3.5 h-3.5" />
+                    <span>{isClarifying ? "Clarifying..." : "Clarify Rule with AI"}</span>
                   </button>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-      )}
 
-      {/* FACTS VIEW */}
-      {activeTab === "facts" && (
-        <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
-          <table className="w-full text-left text-xs">
-            <thead className="bg-slate-50 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 text-slate-500 font-semibold uppercase tracking-wider">
-              <tr>
-                <th className="p-3.5">Fact ID</th>
-                <th className="p-3.5">Claim Type</th>
-                <th className="p-3.5">Approved Fact Value</th>
-                <th className="p-3.5">Source Doc</th>
-                <th className="p-3.5">Status</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-              {facts.map((f: any) => (
-                <tr key={f.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/50">
-                  <td className="p-3.5 font-mono text-slate-500 font-semibold">{f.id}</td>
-                  <td className="p-3.5 capitalize font-medium text-slate-700 dark:text-slate-300">{f.claim_type}</td>
-                  <td className="p-3.5 font-medium text-slate-900 dark:text-white max-w-md">{f.value}</td>
-                  <td className="p-3.5 text-slate-500">{f.source}</td>
-                  <td className="p-3.5">
-                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                      f.status === "approved" ? "bg-emerald-100 text-emerald-800" : "bg-red-100 text-red-800"
-                    }`}>
-                      {f.status}
+              {/* AI Clarifier Proposal Box (if active) */}
+              {selectedRuleClarification && (
+                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/40 dark:to-indigo-950/40 p-6 rounded-xl border border-blue-200 dark:border-blue-800 shadow-md space-y-4 animate-in fade-in">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Sparkles className="w-4 h-4 text-blue-600" />
+                      <h4 className="text-xs font-bold uppercase tracking-wider text-blue-900 dark:text-blue-200">
+                        Proposed Clarification (Clarifier Agent)
+                      </h4>
+                    </div>
+                    <span className="text-xs font-semibold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full">
+                      Resolves {selectedRuleClarification.override_count || 3} Reviewer Overrides
                     </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+                  </div>
 
-      {/* TERMS VIEW */}
-      {activeTab === "terms" && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {terms.map((t: any) => (
-            <div key={t.id} className="p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full">
-                  Preferred: {t.preferred_term}
-                </span>
-                <span className="text-[10px] text-slate-400 font-mono">{t.scope} scope</span>
+                  <div className="space-y-2 text-xs">
+                    <p className="font-semibold text-slate-800 dark:text-slate-200">
+                      Proposed Clearer Rule Description:
+                    </p>
+                    <p className="p-3 bg-white dark:bg-slate-900 rounded-lg text-slate-700 dark:text-slate-300 font-mono text-[11px] border border-blue-200">
+                      {selectedRuleClarification.proposed_description}
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3 text-xs">
+                    <div className="p-3 bg-red-50 dark:bg-red-950/40 border border-red-200 rounded-lg">
+                      <span className="font-bold text-red-700 block mb-1">❌ Prohibited Example:</span>
+                      <span className="text-red-900 dark:text-red-200 italic">
+                        "{selectedRuleClarification.negative_example || "the best payment platform in India"}"
+                      </span>
+                    </div>
+                    <div className="p-3 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 rounded-lg">
+                      <span className="font-bold text-emerald-700 block mb-1">✅ Approved Example:</span>
+                      <span className="text-emerald-900 dark:text-emerald-200 italic">
+                        "{selectedRuleClarification.positive_example || "an industry-leading payment platform trusted by 45,000+ merchants"}"
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Contrast / Guidelines Examples */}
+              <div className="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                  Enforcement Criteria & Benchmark Controls
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                  <div className="p-3.5 rounded-lg bg-red-50/60 dark:bg-red-950/20 border border-red-200 dark:border-red-900/60">
+                    <span className="font-bold text-red-700 dark:text-red-400 block mb-1">
+                      Violations Caught:
+                    </span>
+                    <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
+                      Any unbacked claims, hyperbolic adjectives, or non-compliant terminology violating clause <strong>{activeRule.source_page || "§2.1"}</strong>.
+                    </p>
+                  </div>
+                  <div className="p-3.5 rounded-lg bg-emerald-50/60 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900/60">
+                    <span className="font-bold text-emerald-700 dark:text-emerald-400 block mb-1">
+                      Intent-Safe Replacement:
+                    </span>
+                    <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
+                      Intent Guard synthesizes 2-3 objective, substantiable alternatives without altering the creator's commercial message.
+                    </p>
+                  </div>
+                </div>
               </div>
-              <div className="text-xs text-slate-500">
-                Banned variants:{" "}
-                <strong className="text-red-600 line-through">
-                  {t.banned_variants?.join(", ")}
-                </strong>
-              </div>
-              <p className="text-[11px] text-slate-400 italic">{t.context_note}</p>
             </div>
-          ))}
-        </div>
-      )}
+          )}
 
-      {/* ASSETS VIEW */}
-      {activeTab === "assets" && (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {assets.map((a: any) => (
-            <div key={a.id} className="p-5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-3">
-              <div className="flex items-center justify-between">
-                <h4 className="text-sm font-bold text-slate-900 dark:text-white">{a.name}</h4>
-                <span className="text-[10px] uppercase font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded">
-                  {a.asset_type}
-                </span>
+          {activeTab === "facts" && activeFact && (
+            <div className="max-w-3xl space-y-6">
+              <div className="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-xs font-bold bg-purple-50 text-purple-700 px-2 py-0.5 rounded">
+                    {activeFact.id}
+                  </span>
+                  <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
+                    Verified Truth
+                  </span>
+                </div>
+
+                <div>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                    Approved Fact Value
+                  </span>
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-1">
+                    {activeFact.value}
+                  </h3>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4 pt-4 border-t border-slate-100 dark:border-slate-800 text-xs">
+                  <div>
+                    <span className="text-slate-400 block">Claim Category:</span>
+                    <strong className="text-slate-800 dark:text-slate-200 capitalize">{activeFact.claim_type}</strong>
+                  </div>
+                  <div>
+                    <span className="text-slate-400 block">Source Document:</span>
+                    <strong className="text-slate-800 dark:text-slate-200">{activeFact.source}</strong>
+                  </div>
+                </div>
               </div>
-              <pre className="text-[11px] bg-slate-50 dark:bg-slate-800 p-3 rounded-lg overflow-x-auto text-slate-700 dark:text-slate-300 font-mono">
-                {JSON.stringify(a.rules, null, 2)}
-              </pre>
             </div>
-          ))}
-        </div>
-      )}
+          )}
 
-      {/* CLARIFICATION MODAL (Improvement #3) */}
-      {selectedRuleClarification && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-in fade-in">
-          <div className="bg-white dark:bg-slate-900 rounded-2xl max-w-2xl w-full p-6 shadow-2xl space-y-4 border border-slate-200 dark:border-slate-800">
+          {activeTab === "terms" && activeTerm && (
+            <div className="max-w-3xl space-y-6">
+              <div className="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full">
+                    Preferred: {activeTerm.preferred_term}
+                  </span>
+                  <span className="font-mono text-xs text-slate-400">{activeTerm.scope} scope</span>
+                </div>
+
+                <div>
+                  <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-1">
+                    Banned Variants (Instant Flag):
+                  </span>
+                  <div className="flex flex-wrap gap-2">
+                    {activeTerm.banned_variants?.map((v: string) => (
+                      <span key={v} className="line-through text-xs font-semibold text-red-700 bg-red-50 px-2.5 py-1 rounded border border-red-200">
+                        {v}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <p className="text-xs text-slate-600 dark:text-slate-400 italic pt-2 border-t border-slate-100 dark:border-slate-800">
+                  Usage context: {activeTerm.context_note || "Strictly required across all corporate, technical, and marketing collateral."}
+                </p>
+              </div>
+            </div>
+          )}
+
+          {activeTab === "assets" && activeAsset && (
+            <div className="max-w-3xl space-y-6">
+              <div className="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white">{activeAsset.name}</h3>
+                  <span className="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded uppercase">
+                    {activeAsset.asset_type}
+                  </span>
+                </div>
+                <div className="p-8 bg-slate-100 dark:bg-slate-800 rounded-xl flex items-center justify-center">
+                  <div className="text-2xl font-black tracking-tight text-blue-600">
+                    Nova<span className="text-slate-900 dark:text-white">Pay</span>
+                  </div>
+                </div>
+                <div className="text-xs text-slate-500 space-y-1">
+                  <p>Clear-space requirement: <strong>1.5x logo height</strong></p>
+                  <p>Minimum digital resolution: <strong>120px width</strong></p>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Compiler Modal */}
+      {showCompilerModal && (
+        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl max-w-2xl w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-800 space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Sparkles className="w-5 h-5 text-blue-600" />
                 <h3 className="text-base font-bold text-slate-900 dark:text-white">
-                  Guideline Health Clarifier: {selectedRuleClarification.rule_title}
+                  Guideline Compiler Agent (Text to Structured Rules)
                 </h3>
               </div>
-              <button
-                onClick={() => setSelectedRuleClarification(null)}
-                className="text-slate-400 hover:text-slate-600"
-              >
-                ✕
-              </button>
+              <button onClick={() => setShowCompilerModal(false)} className="text-slate-400 hover:text-slate-600">✕</button>
             </div>
 
-            <p className="text-xs text-slate-500 leading-relaxed">
-              {selectedRuleClarification.rationale}
+            <p className="text-xs text-slate-500">
+              Paste raw guideline text, brand voice manuals, or paste corporate memos. The Guideline Compiler extracts structured rules and facts.
             </p>
 
-            <div className="space-y-3 text-xs">
-              <div>
-                <label className="font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-                  Original Ambiguous Rule:
-                </label>
-                <div className="p-3 bg-red-50 dark:bg-red-950/30 text-red-900 dark:text-red-300 rounded-lg border border-red-200">
-                  {selectedRuleClarification.original_description}
-                </div>
-              </div>
+            <textarea
+              rows={8}
+              value={compilerText || sampleGuidelineText}
+              onChange={(e) => setCompilerText(e.target.value)}
+              className="w-full text-xs font-mono p-3 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-blue-500"
+            />
 
-              <div>
-                <label className="font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-                  Proposed Clarified Wording:
-                </label>
-                <div className="p-3 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-900 dark:text-emerald-300 rounded-lg border border-emerald-200 font-medium">
-                  {selectedRuleClarification.proposed_description}
-                </div>
+            {compileResult && (
+              <div className="p-3 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 rounded-lg text-xs text-emerald-800 dark:text-emerald-300">
+                ✅ Successfully compiled: {compileResult.rules_extracted} rules and {compileResult.facts_extracted} facts added to Brand Pack!
               </div>
-            </div>
+            )}
 
-            <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-3">
+            <div className="flex items-center justify-end gap-2 pt-2">
               <button
-                onClick={() => setSelectedRuleClarification(null)}
-                className="px-4 py-2 border border-slate-300 dark:border-slate-700 rounded-lg text-xs font-semibold text-slate-700 dark:text-slate-300"
+                onClick={() => setShowCompilerModal(false)}
+                className="px-4 py-2 rounded-lg border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-slate-100"
               >
                 Close
               </button>
               <button
-                onClick={() => {
-                  alert("Clarification accepted! Brand Pack updated to v3.");
-                  setSelectedRuleClarification(null);
-                }}
-                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold"
-              >
-                Approve & Update Guideline
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* GUIDELINE COMPILER MODAL */}
-      {showCompilerModal && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 rounded-2xl max-w-2xl w-full p-6 shadow-2xl space-y-4 max-h-[90vh] flex flex-col">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <UploadCloud className="w-5 h-5 text-blue-600" />
-                <h3 className="text-base font-bold text-slate-900 dark:text-white">
-                  Guideline Compiler Agent (PDF / Text Ingestion)
-                </h3>
-              </div>
-              <button 
-                onClick={() => {
-                  setShowCompilerModal(false);
-                  setCompileResult(null);
-                }} 
-                className="text-slate-400 hover:text-slate-600"
-              >
-                ✕
-              </button>
-            </div>
-
-            <p className="text-xs text-slate-500 leading-relaxed">
-              Upload or paste raw brand guidelines, marketing manuals, or regulatory notices. The <strong>Guideline Compiler Agent</strong> parses the unstructured text and compiles it into machine-executable brand rules, verified facts, and terminology with exact severity levels.
-            </p>
-
-            <div className="flex items-center justify-between text-xs pt-1">
-              <label className="cursor-pointer text-blue-600 font-semibold hover:underline flex items-center gap-1">
-                <FileText className="w-3.5 h-3.5" /> Upload File (.txt / .md)
-                <input 
-                  type="file" 
-                  accept=".txt,.md,.pdf" 
-                  onChange={handleFileUpload} 
-                  className="hidden" 
-                />
-              </label>
-
-              <button
-                type="button"
-                onClick={() => setCompilerText(sampleGuidelineText)}
-                className="text-xs text-slate-600 dark:text-slate-400 hover:text-blue-600 font-semibold flex items-center gap-1 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-md transition-colors"
-              >
-                <Sparkles className="w-3 h-3 text-amber-500" /> Load Sample Guidelines
-              </button>
-            </div>
-
-            <textarea
-              value={compilerText}
-              onChange={(e) => setCompilerText(e.target.value)}
-              placeholder="Paste raw guidelines, brand voice clauses, or pricing sheets here..."
-              rows={6}
-              className="w-full text-xs p-3 border border-slate-300 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono"
-            />
-
-            <div className="flex justify-end gap-2 pt-2">
-              <button
-                onClick={() => {
-                  setShowCompilerModal(false);
-                  setCompileResult(null);
-                }}
-                className="px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 transition-colors"
-              >
-                Cancel
-              </button>
-              <button
                 onClick={handleCompile}
-                disabled={isCompiling || !compilerText.trim()}
-                className={`px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold flex items-center gap-2 shadow-sm transition-all ${
-                  isCompiling ? "opacity-75 cursor-not-allowed" : ""
-                }`}
+                disabled={isCompiling}
+                className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm"
               >
-                {isCompiling ? (
-                  <>
-                    <RefreshCw className="w-3.5 h-3.5 animate-spin" /> Compiling with Gemini...
-                  </>
-                ) : (
-                  <>
-                    <Sparkles className="w-3.5 h-3.5" /> Compile into Brand Pack
-                  </>
-                )}
+                <Sparkles className="w-4 h-4" />
+                <span>{isCompiling ? "Compiling with Gemini..." : "Compile & Ingest Rules"}</span>
               </button>
             </div>
-
-            {/* RESULTS PREVIEW */}
-            {compileResult && (
-              <div className="mt-3 p-4 bg-emerald-50/80 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-800 rounded-xl text-xs space-y-3 overflow-y-auto max-h-56">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 font-bold text-emerald-800 dark:text-emerald-200">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                    <span>Successfully Compiled: {compileResult.rules_extracted} Rules, {compileResult.facts_extracted || 0} Facts, {compileResult.terms_extracted || 0} Terms</span>
-                  </div>
-                  <button
-                    onClick={() => window.location.reload()}
-                    className="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded text-[11px] shadow-sm flex items-center gap-1"
-                  >
-                    <RefreshCw className="w-3 h-3" /> Refresh Brand Pack
-                  </button>
-                </div>
-
-                <div className="space-y-2 pt-1">
-                  {compileResult.rules?.slice(0, 4).map((r: any, idx: number) => (
-                    <div key={idx} className="p-2.5 bg-white dark:bg-slate-900 rounded-lg border border-emerald-200 dark:border-slate-800 space-y-1">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-blue-600 bg-blue-50 dark:bg-blue-950 px-1.5 py-0.5 rounded">
-                          {r.category}
-                        </span>
-                        <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
-                          r.severity === "critical" ? "bg-red-100 text-red-800" : "bg-amber-100 text-amber-800"
-                        }`}>
-                          {r.severity}
-                        </span>
-                      </div>
-                      <p className="font-semibold text-slate-800 dark:text-slate-200 text-xs">{r.title}</p>
-                      <p className="text-[11px] text-slate-500 line-clamp-2">{r.description}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
         </div>
       )}

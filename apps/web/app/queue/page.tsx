@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { UnifiedHeader } from "@/components/layout/UnifiedHeader";
 import { KanbanBoard } from "@/components/review-queue/KanbanBoard";
 import { api } from "@/lib/api";
 
@@ -61,9 +62,10 @@ export default function QueuePage() {
   }
 
   return (
-    <div className="flex-1 overflow-y-auto bg-slate-50 dark:bg-slate-950 relative">
+    <div className="flex flex-col h-screen overflow-hidden bg-slate-50 dark:bg-slate-950 relative">
+      <UnifiedHeader />
       {toastMsg && (
-        <div className={`fixed top-4 right-8 z-50 px-4 py-2.5 rounded-lg text-xs font-semibold shadow-lg transition-all border ${
+        <div className={`fixed top-16 right-8 z-50 px-4 py-2.5 rounded-lg text-xs font-semibold shadow-lg transition-all border ${
           toastMsg.type === "success" 
             ? "bg-emerald-50 text-emerald-800 border-emerald-300 dark:bg-emerald-950 dark:text-emerald-200" 
             : "bg-red-50 text-red-800 border-red-300 dark:bg-red-950 dark:text-red-200"
@@ -71,11 +73,13 @@ export default function QueuePage() {
           {toastMsg.text}
         </div>
       )}
-      <KanbanBoard
-        queue={queue}
-        onApprove={handleApprove}
-        onRequestChanges={handleRequestChanges}
-      />
+      <div className="flex-1 overflow-hidden">
+        <KanbanBoard
+          queue={queue}
+          onApprove={handleApprove}
+          onRequestChanges={handleRequestChanges}
+        />
+      </div>
     </div>
   );
 }
