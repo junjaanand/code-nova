@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import { 
   CheckCircle2, 
@@ -39,19 +39,39 @@ export function KanbanBoard({ queue, onApprove, onRequestChanges }: KanbanProps)
   const [filterTier, setFilterTier] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const allItems = [
-    ...(queue?.high_risk || []).map((i) => ({ ...i, queue_stage: "high_risk" })),
-    ...(queue?.in_review || []).map((i) => ({ ...i, queue_stage: "in_review" })),
-    ...(queue?.ai_reviewed || []).map((i) => ({ ...i, queue_stage: "ai_reviewed" })),
-    ...(queue?.approved || []).map((i) => ({ ...i, queue_stage: "approved" })),
-  ];
+  // Deduplicate all items across queue stages by ID with priority
+  const allItems = useMemo(() => {
+    const itemMap = new Map<string, any>();
+    // Priority order: high_risk first, then in_review, then ai_reviewed, then approved
+    (queue?.high_risk || []).forEach((i) => {
+      itemMap.set(i.id, { ...i, queue_stage: "high_risk" });
+    });
+    (queue?.in_review || []).forEach((i) => {
+      if (!itemMap.has(i.id)) {
+        itemMap.set(i.id, { ...i, queue_stage: "in_review" });
+      }
+    });
+    (queue?.ai_reviewed || []).forEach((i) => {
+      if (!itemMap.has(i.id)) {
+        itemMap.set(i.id, { ...i, queue_stage: "ai_reviewed" });
+      }
+    });
+    (queue?.approved || []).forEach((i) => {
+      if (!itemMap.has(i.id)) {
+        itemMap.set(i.id, { ...i, queue_stage: "approved" });
+      }
+    });
+    return Array.from(itemMap.values());
+  }, [queue]);
 
-  const filteredItems = allItems.filter((i) => {
-    const matchSearch = (i.title || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
-                        (i.author_name || "").toLowerCase().includes(searchQuery.toLowerCase());
-    const matchTier = filterTier === "all" || i.queue_stage === filterTier;
-    return matchSearch && matchTier;
-  });
+  const filteredItems = useMemo(() => {
+    return allItems.filter((i) => {
+      const matchSearch = (i.title || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          (i.author_name || "").toLowerCase().includes(searchQuery.toLowerCase());
+      const matchTier = filterTier === "all" || i.queue_stage === filterTier;
+      return matchSearch && matchTier;
+    });
+  }, [allItems, searchQuery, filterTier]);
 
   const columns = [
     { key: "high_risk", title: "High-Risk Legal Desk", count: queue?.high_risk?.length || 0, icon: AlertOctagon, color: "text-red-600 bg-red-50 border-red-200" },
@@ -169,11 +189,11 @@ export function KanbanBoard({ queue, onApprove, onRequestChanges }: KanbanProps)
                   No items in this queue category.
                 </div>
               ) : (
-                filteredItems.map((item) => {
+                filteredItems.map((item, idx) => {
                   const canApprove = canApproveItem(item);
                   return (
                     <div
-                      key={item.id}
+                      key={`list-item-${item.id}-${item.queue_stage || idx}`}
                       className="p-4 hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors flex items-center justify-between gap-4"
                     >
                       {/* Document details */}
@@ -289,11 +309,11 @@ export function KanbanBoard({ queue, onApprove, onRequestChanges }: KanbanProps)
                         No documents
                       </div>
                     ) : (
-                      items.map((item: any) => {
+                      items.map((item: any, idx: number) => {
                         const canApprove = canApproveItem(item);
                         return (
                           <div
-                            key={item.id}
+                            key={`board-card-${col.key}-${item.id}-${idx}`}
                             className="p-3.5 bg-slate-50 dark:bg-slate-800/60 rounded-lg border border-slate-200 dark:border-slate-700/80 shadow-xs space-y-2 hover:border-blue-400 transition-colors"
                           >
                             <Link href="/" className="text-xs font-bold text-slate-900 dark:text-white hover:underline line-clamp-2">
