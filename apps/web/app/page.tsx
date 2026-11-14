@@ -158,20 +158,17 @@ export default function ReviewPage() {
 
   return (
     <div className="flex flex-col h-screen overflow-hidden">
-      {/* Sleek, Unified 54px Command Header */}
+      {/* Sleek, Unified Command Header with Perfectly Proportioned Persona Bar */}
       <UnifiedHeader
         isReviewPage={true}
         score={currentContent?.latest_score || 100}
         riskTier={currentContent?.risk_tier || "standard"}
-        contentList={contentList}
-        selectedContentId={selectedContentId}
-        onSelectContent={handleSelectContent}
         onRunAIReview={() => setIsStreaming(true)}
         onPrimaryAction={handlePrimaryAction}
         onExportAudit={handleExportAudit}
       />
 
-      {/* Main Review Workspace: Clean Canvas + Side-by-Side Evidence Drawer */}
+      {/* Main Review Workspace: Clean Canvas with In-Canvas Doc Header + Side Evidence Drawer */}
       <div className="flex-1 flex overflow-hidden">
         <div className="flex-1 p-6 overflow-hidden">
           {loading ? (
@@ -192,6 +189,10 @@ export default function ReviewPage() {
                 }
               }}
               readOnly={currentPersona.permissions.isReadOnly}
+              contentList={contentList}
+              selectedContentId={selectedContentId}
+              onSelectContent={handleSelectContent}
+              currentContent={currentContent}
             />
           )}
         </div>

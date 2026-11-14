@@ -15,15 +15,13 @@ import {
   Check, 
   ChevronDown,
   Layers,
-  FileText
+  FileText,
+  Shield
 } from "lucide-react";
 
 interface UnifiedHeaderProps {
   score?: number;
   riskTier?: string;
-  contentList?: any[];
-  selectedContentId?: string;
-  onSelectContent?: (id: string) => void;
   onRunAIReview?: () => void;
   onPrimaryAction?: () => void;
   onExportAudit?: () => void;
@@ -33,9 +31,6 @@ interface UnifiedHeaderProps {
 export function UnifiedHeader({
   score = 100,
   riskTier = "standard",
-  contentList = [],
-  selectedContentId = "",
-  onSelectContent,
   onRunAIReview,
   onPrimaryAction,
   onExportAudit,
@@ -81,49 +76,28 @@ export function UnifiedHeader({
   };
 
   const riskColor = getRiskColor(riskTier);
-  const selectedDoc = contentList.find((c) => c.id === selectedContentId);
 
   return (
     <header className="h-14 border-b border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md px-6 flex items-center justify-between sticky top-0 z-30 shadow-sm">
-      {/* LEFT: Context / Document Switcher */}
-      <div className="flex items-center gap-3 min-w-[280px]">
-        {isReviewPage && contentList.length > 0 ? (
-          <div className="flex items-center gap-2">
-            <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Doc:</span>
-            <div className="relative">
-              <select
-                value={selectedContentId}
-                onChange={(e) => onSelectContent && onSelectContent(e.target.value)}
-                className="text-xs font-semibold bg-slate-100 hover:bg-slate-200/80 dark:bg-slate-800 dark:hover:bg-slate-700 border-none rounded-lg pl-2.5 pr-8 py-1 text-slate-900 dark:text-slate-100 cursor-pointer transition-colors focus:ring-2 focus:ring-blue-500"
-              >
-                {contentList.map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {c.title.length > 28 ? c.title.substring(0, 28) + "..." : c.title}
-                  </option>
-                ))}
-              </select>
-            </div>
-            {selectedDoc && (
-              <span className="text-[10px] bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 font-mono px-2 py-0.5 rounded border border-blue-200 dark:border-blue-800">
-                {selectedDoc.channel}
-              </span>
-            )}
-          </div>
-        ) : (
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-bold text-slate-900 dark:text-white">
-              {pathname === "/brand-pack" ? "Brand Pack & Knowledge Base v2" :
-               pathname === "/queue" ? "Human Governance Queue" :
-               pathname === "/analytics" ? "Compliance & Guideline Analytics" :
-               pathname === "/mcp" ? "Brand Guard MCP Server" : "BrandShield AI"}
-            </span>
-          </div>
-        )}
+      {/* LEFT: Context & Active Desk */}
+      <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2">
+          <span className="text-xs font-bold text-slate-900 dark:text-white">
+            {pathname === "/brand-pack" ? "Brand Pack & Rules v2" :
+             pathname === "/queue" ? "Governance Queue" :
+             pathname === "/analytics" ? "Compliance Analytics" :
+             pathname === "/mcp" ? "Brand Guard MCP" : "Content Review"}
+          </span>
+          <span className="text-slate-300 dark:text-slate-700">/</span>
+          <span className="text-[11px] font-medium text-slate-500 capitalize">
+            {currentPersona.title}
+          </span>
+        </div>
       </div>
 
-      {/* CENTER: Evaluator Persona Segmented Controller */}
-      <div className="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800/80 p-1 rounded-xl border border-slate-200/80 dark:border-slate-700/80">
-        <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider px-2 hidden lg:inline">
+      {/* CENTER: Perfectly Centered & Styled Persona Navbar */}
+      <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800/80 p-1 rounded-xl border border-slate-200/80 dark:border-slate-700/80">
+        <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider px-2 hidden md:inline">
           Persona:
         </span>
         {personaList.map((p) => {
@@ -132,7 +106,7 @@ export function UnifiedHeader({
             <button
               key={p.role}
               onClick={() => handleSelectRole(p.role)}
-              className={`px-2.5 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all duration-150 ${
+              className={`px-3 py-1 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all duration-150 cursor-pointer ${
                 isActive
                   ? p.role === "reviewer"
                     ? "bg-emerald-600 text-white shadow-sm shadow-emerald-500/30 scale-[1.02]"
@@ -148,7 +122,7 @@ export function UnifiedHeader({
               title={`Switch to ${p.name} (${p.title})`}
             >
               <span>{p.icon}</span>
-              <span className="text-[11px]">{p.name}</span>
+              <span className="text-[11px] font-bold">{p.name}</span>
             </button>
           );
         })}
@@ -157,7 +131,7 @@ export function UnifiedHeader({
         <div className="relative">
           <button
             onClick={() => setShowAdvicePopover(!showAdvicePopover)}
-            className="w-6 h-6 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-slate-700 flex items-center justify-center transition-colors"
+            className="w-6 h-6 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-slate-700 flex items-center justify-center transition-colors cursor-pointer"
             title="View testing instructions for active role"
           >
             <Info className="w-3.5 h-3.5" />
@@ -173,7 +147,7 @@ export function UnifiedHeader({
                 </div>
                 <button
                   onClick={() => setShowAdvicePopover(false)}
-                  className="text-slate-400 hover:text-slate-600 text-xs"
+                  className="text-slate-400 hover:text-slate-600 text-xs cursor-pointer"
                 >
                   ✕
                 </button>
@@ -187,7 +161,7 @@ export function UnifiedHeader({
               </p>
               <div className="mt-2.5 pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
                 <span>Active Desk: <strong>{currentPersona.title}</strong></span>
-                <span className="font-mono text-[10px] bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded">
+                <span className="font-mono text-[10px] bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded font-bold">
                   {currentPersona.permissions.isReadOnly ? "READ-ONLY" : "INTERACTIVE"}
                 </span>
               </div>

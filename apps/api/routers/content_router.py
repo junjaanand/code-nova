@@ -163,15 +163,51 @@ def accept_finding(
         role=current_user.role
     )
 
-    # Apply replacement text to content item if suggestions exist
     item = db.content_items.get(content_id)
     if item and f.suggestions and hasattr(f.location, "start") and hasattr(f.location, "end"):
         start = f.location.start
         end = f.location.end
         fix_text = f.suggestions[0].text
-        # Replace span
+        matched_str = getattr(f.location, "matched_text", "")
+
+        # 1. Exactly relocate matched_str in current_text to guarantee perfect word boundaries
+        if matched_str:
+            if start >= len(item.current_text) or item.current_text[start:end] != matched_str:
+                actual_pos = item.current_text.find(matched_str)
+                if actual_pos != -1:
+                    start = actual_pos
+                    end = actual_pos + len(matched_str)
+
         if start < len(item.current_text):
+            old_len = max(0, end - start)
+            new_len = len(fix_text)
+            delta = new_len - old_len
+
+            # 2. Replace the exact span with the fix text
             item.current_text = item.current_text[:start] + fix_text + item.current_text[end:]
+
+            # 3. Update accepted finding's own span
+            f.location.start = start
+            f.location.end = start + new_len
+            f.location.matched_text = fix_text
+
+            # 4. Synchronize all other open findings to prevent any word-breaking offset shift
+            for other_f in db.findings.values():
+                if other_f.content_id == content_id and other_f.id != f.id and other_f.status != FindingStatusEnum.ACCEPTED:
+                    if hasattr(other_f.location, "start") and hasattr(other_f.location, "end"):
+                        # Shift offset if after the replaced span
+                        if other_f.location.start >= end:
+                            other_f.location.start += delta
+                            other_f.location.end += delta
+
+                        # Re-verify and lock to the exact word boundary of other_f.location.matched_text
+                        other_matched = getattr(other_f.location, "matched_text", "")
+                        if other_matched:
+                            if item.current_text[other_f.location.start:other_f.location.end] != other_matched:
+                                found_idx = item.current_text.find(other_matched)
+                                if found_idx != -1:
+                                    other_f.location.start = found_idx
+                                    other_f.location.end = found_idx + len(other_matched)
 
     return {"status": "accepted", "finding": f, "updated_text": item.current_text if item else ""}
 
