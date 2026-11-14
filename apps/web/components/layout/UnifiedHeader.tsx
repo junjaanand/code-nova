@@ -172,6 +172,18 @@ export function UnifiedHeader({
 
       {/* RIGHT: Score Badge & Unified Action Buttons */}
       <div className="flex items-center gap-3">
+        {/* Master Project Guide Link */}
+        <a
+          href="/guide.html"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-[11px] font-semibold px-2.5 py-1 rounded-lg border border-indigo-200 dark:border-indigo-800/80 bg-indigo-50/80 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 transition flex items-center gap-1.5 shadow-sm"
+          title="Open Standalone Master Project Guide & Interactive Navigation Suite"
+        >
+          <span>📖</span>
+          <span className="hidden xl:inline">Master Guide</span>
+        </a>
+
         {/* Governance Score Pill */}
         <div className={`flex items-center gap-2 px-2.5 py-1 rounded-lg border text-xs font-semibold ${riskColor.bg} ${riskColor.text}`}>
           <span className={`w-2 h-2 rounded-full ${riskColor.dot} animate-pulse`}></span>

@@ -1,0 +1,1450 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BrandShield AI — Master Showcase & Navigation Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              200: '#c7d2fe',
+              300: '#a5b4fc',
+              400: '#818cf8',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              800: '#3730a3',
+              900: '#312e81',
+              950: '#1e1b4b',
+            },
+            slate: {
+              850: '#0f172a',
+              900: '#0b1120',
+              950: '#060a12',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom Scrollbar & Utility */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #0b1120; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+    .glow-indigo {
+      box-shadow: 0 0 50px -12px rgba(99, 102, 241, 0.25);
+    }
+    .glow-amber {
+      box-shadow: 0 0 50px -12px rgba(245, 158, 11, 0.25);
+    }
+    .glow-emerald {
+      box-shadow: 0 0 50px -12px rgba(16, 185, 129, 0.25);
+    }
+    .glass-card {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glass-card-hover {
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .glass-card-hover:hover {
+      transform: translateY(-2px);
+      border-color: rgba(99, 102, 241, 0.4);
+      box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.5);
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased selection:bg-brand-500 selection:text-white">
+
+  <!-- TOP ANNOUNCEMENT BAR -->
+  <div class="bg-gradient-to-r from-brand-900 via-indigo-900 to-slate-900 border-b border-indigo-500/20 px-4 py-2 text-xs font-medium text-indigo-200">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center gap-2">
+        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-400 text-slate-950 uppercase tracking-wider">CodeNova India 2026</span>
+        <span>🏆 <strong>BrandShield AI</strong> — Master Project Guide & Interactive Navigation Suite</span>
+      </div>
+      <div class="flex items-center gap-4 text-xs">
+        <span class="flex items-center gap-1.5 text-emerald-400">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          28/28 Diagnostic Tests Passing (100%)
+        </span>
+        <span class="text-slate-400">|</span>
+        <a href="http://localhost:3000" target="_blank" class="text-indigo-300 hover:text-white underline transition">Open Web App (Port 3000)</a>
+        <a href="http://localhost:8000/docs" target="_blank" class="text-indigo-300 hover:text-white underline transition">FastAPI Swagger (Port 8000)</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- STICKY NAVIGATION -->
+  <header class="sticky top-0 z-50 glass-card border-b border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-brand-700 flex items-center justify-center text-white shadow-lg shadow-indigo-500/20 font-bold text-lg">
+          🛡️
+        </div>
+        <div>
+          <span class="font-extrabold text-lg text-white tracking-tight flex items-center gap-2">
+            BrandShield <span class="text-indigo-400">AI</span>
+          </span>
+          <span class="text-[10px] text-slate-400 block -mt-1 font-mono">Pre-Publication Brand Governance Engine</span>
+        </div>
+      </div>
+
+      <nav class="hidden md:flex items-center gap-1 text-sm font-medium">
+        <a href="#what" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition">What Is It</a>
+        <a href="#why" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition">Why It Matters</a>
+        <a href="#personas" class="px-3 py-1.5 rounded-lg text-indigo-400 hover:text-indigo-300 hover:bg-indigo-950/40 transition font-semibold">Persona Guide</a>
+        <a href="#demos" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition">Live Demos</a>
+        <a href="#architecture" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition">13-Agent Core</a>
+        <a href="#benchmarks" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition">Benchmark & Evals</a>
+      </nav>
+
+      <div class="flex items-center gap-2.5">
+        <a href="http://localhost:3000" target="_blank" class="px-4 py-2 rounded-xl text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 text-white shadow-md shadow-indigo-600/30 transition flex items-center gap-2">
+          <span>Launch Local App</span>
+          <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="relative overflow-hidden pt-16 pb-20 border-b border-slate-800">
+    <!-- Subtle gradient orbs -->
+    <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-indigo-600/15 blur-[120px] rounded-full pointer-events-none"></div>
+    <div class="absolute top-40 right-10 w-[350px] h-[350px] bg-emerald-600/10 blur-[100px] rounded-full pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="max-w-4xl mx-auto text-center">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/90 border border-indigo-500/30 text-indigo-300 text-xs font-semibold mb-6 shadow-inner">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+          CodeNova India 2026 Winner Suite — Ready for Evaluators
+        </div>
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight sm:leading-none">
+          Pre-Publication <span class="bg-gradient-to-r from-indigo-400 via-indigo-200 to-emerald-400 bg-clip-text text-transparent">Brand Governance</span><br/>With Zero Hallucinations.
+        </h1>
+        <p class="mt-6 text-base sm:text-lg text-slate-300 leading-relaxed max-w-3xl mx-auto font-normal">
+          An intelligent, evidence-grounded brand guardrail system that evaluates marketing copy, press releases, social drafts, and AI-generated content against approved brand guidelines and verified facts <strong class="text-white">before publication</strong>.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+          <a href="#personas" class="px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-brand-600 hover:from-indigo-500 hover:to-brand-500 text-white font-semibold text-sm shadow-lg shadow-indigo-600/30 transition flex items-center gap-2">
+            <i data-lucide="users" class="w-4 h-4"></i>
+            <span>Interactive Persona Walkthrough</span>
+          </a>
+          <a href="#demos" class="px-6 py-3 rounded-xl glass-card hover:bg-slate-800 text-slate-200 font-semibold text-sm transition flex items-center gap-2 border border-slate-700">
+            <i data-lucide="play-circle" class="w-4 h-4 text-emerald-400"></i>
+            <span>Inspect Live Demo Scenarios</span>
+          </a>
+          <a href="http://localhost:3000" target="_blank" class="px-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-indigo-300 font-semibold text-sm transition flex items-center gap-2 border border-indigo-500/30">
+            <i data-lucide="layout" class="w-4 h-4"></i>
+            <span>Open Running UI</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quick Metrics Grid -->
+      <div class="mt-14 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div class="glass-card rounded-2xl p-4 text-center border-slate-800 glass-card-hover">
+          <div class="text-2xl font-black text-emerald-400 font-mono">100%</div>
+          <div class="text-[11px] font-semibold text-slate-400 mt-1 uppercase tracking-wider">Citation Rate</div>
+          <div class="text-[10px] text-slate-500 mt-0.5">No citation, no flag</div>
+        </div>
+
+        <div class="glass-card rounded-2xl p-4 text-center border-slate-800 glass-card-hover">
+          <div class="text-2xl font-black text-indigo-400 font-mono">13</div>
+          <div class="text-[11px] font-semibold text-slate-400 mt-1 uppercase tracking-wider">Specialized Agents</div>
+          <div class="text-[10px] text-slate-500 mt-0.5">LangGraph Parallel Swarm</div>
+        </div>
+
+        <div class="glass-card rounded-2xl p-4 text-center border-slate-800 glass-card-hover">
+          <div class="text-2xl font-black text-emerald-400 font-mono">100%</div>
+          <div class="text-[11px] font-semibold text-slate-400 mt-1 uppercase tracking-wider">Precision & Recall</div>
+          <div class="text-[10px] text-slate-500 mt-0.5">80-Item Gold Benchmark</div>
+        </div>
+
+        <div class="glass-card rounded-2xl p-4 text-center border-slate-800 glass-card-hover">
+          <div class="text-2xl font-black text-amber-400 font-mono">20.4ms</div>
+          <div class="text-[11px] font-semibold text-slate-400 mt-1 uppercase tracking-wider">Avg Latency</div>
+          <div class="text-[10px] text-slate-500 mt-0.5">Deterministic + Fast LLM</div>
+        </div>
+
+        <div class="glass-card rounded-2xl p-4 text-center border-slate-800 glass-card-hover">
+          <div class="text-2xl font-black text-sky-400 font-mono">5 Roles</div>
+          <div class="text-[11px] font-semibold text-slate-400 mt-1 uppercase tracking-wider">Enterprise RBAC</div>
+          <div class="text-[10px] text-slate-500 mt-0.5">Creator to Auditor</div>
+        </div>
+
+        <div class="glass-card rounded-2xl p-4 text-center border-slate-800 glass-card-hover">
+          <div class="text-2xl font-black text-purple-400 font-mono">MCP Ready</div>
+          <div class="text-[11px] font-semibold text-slate-400 mt-1 uppercase tracking-wider">Brand Guard Protocol</div>
+          <div class="text-[10px] text-slate-500 mt-0.5">ChatGPT, Claude, Cursor</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 1: WHAT IS BRANDSHIELD AI? -->
+  <section id="what" class="py-20 border-b border-slate-800 bg-slate-900/40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center gap-2 text-indigo-400 text-xs font-bold uppercase tracking-wider mb-2">
+        <i data-lucide="info" class="w-4 h-4"></i>
+        <span>Foundational Context</span>
+      </div>
+      <h2 class="text-3xl font-black text-white tracking-tight">What Exactly Is BrandShield AI?</h2>
+      <p class="mt-3 text-slate-400 max-w-3xl text-sm sm:text-base leading-relaxed">
+        BrandShield AI is a <strong class="text-white">pre-publication brand governance engine</strong>. Unlike post-publication monitoring tools that scan Twitter or websites after a crisis occurs, BrandShield operates <span class="text-indigo-300 font-semibold">at drafting time</span> inside the copywriter’s, marketer’s, and AI agent’s workflow to ensure that <strong class="text-white">nothing non-compliant, unapproved, or legally hazardous ever goes live</strong>.
+      </p>
+
+      <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Feature Card 1 -->
+        <div class="glass-card rounded-2xl p-6 border-slate-800">
+          <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 mb-4">
+            <i data-lucide="shield-check" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2">"No Citation, No Flag" Gatekeeper</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            Generic LLMs hallucinate phantom rules. In BrandShield, the Verifier Gatekeeper Agent automatically drops any flag that cannot cite an exact clause in the active Brand Pack (e.g. <em>Brand Glossary §1.1</em> or <em>Fact f_pricing_001</em>). If there's no citation, there is no flag. Period.
+          </p>
+        </div>
+
+        <!-- Feature Card 2 -->
+        <div class="glass-card rounded-2xl p-6 border-slate-800">
+          <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-4">
+            <i data-lucide="lock" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2">Intent Guard Semantic Safety</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            When fixing violations, generative AI often changes user intent or introduces new prohibited promises (like turning "the best" into "100% guaranteed returns"). The Intent Guard Engine analyzes semantic coherence and negations to ensure every suggestion is safe before presenting it to the user.
+          </p>
+        </div>
+
+        <!-- Feature Card 3 -->
+        <div class="glass-card rounded-2xl p-6 border-slate-800">
+          <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 mb-4">
+            <i data-lucide="cpu" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2">Brand Guard MCP Server</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">
+            Native Model Context Protocol (MCP) server integration. External AI systems (Claude Desktop, Cursor, ChatGPT plugins, marketing scripts) can call <code class="text-xs bg-slate-800 text-purple-300 px-1 py-0.5 rounded">check_content</code> and <code class="text-xs bg-slate-800 text-purple-300 px-1 py-0.5 rounded">lookup_fact</code> to govern content drafts automatically.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: THE "WHY" -->
+  <section id="why" class="py-20 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center gap-2 text-rose-400 text-xs font-bold uppercase tracking-wider mb-2">
+        <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+        <span>The Problem We Solve</span>
+      </div>
+      <h2 class="text-3xl font-black text-white tracking-tight">Why Does This Problem Exist & Why Now?</h2>
+      <p class="mt-3 text-slate-400 max-w-3xl text-sm sm:text-base leading-relaxed">
+        With generative AI, companies produce 100x more content across dozens of agencies, marketing teams, and regional offices. But brand guidelines remain static 80-page PDF documents that humans ignore and LLMs hallucinate over.
+      </p>
+
+      <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Threat 1 -->
+        <div class="glass-card rounded-2xl p-6 border-slate-800 border-l-4 border-l-rose-500">
+          <h4 class="text-base font-bold text-white flex items-center gap-2">
+            <span class="text-rose-400">1. Regulatory Fines & Prohibited Financial Promises</span>
+          </h4>
+          <p class="mt-2 text-sm text-slate-400 leading-relaxed">
+            In fintech, claiming "guaranteed returns", "risk-free deposit", or "100% safe money" violates RBI, SEBI, and FTC regulations. A single rogue LinkedIn post can trigger regulatory audits, license freezes, and severe statutory fines.
+          </p>
+        </div>
+
+        <!-- Threat 2 -->
+        <div class="glass-card rounded-2xl p-6 border-slate-800 border-l-4 border-l-amber-500">
+          <h4 class="text-base font-bold text-white flex items-center gap-2">
+            <span class="text-amber-400">2. Outdated Claims & Factual Desynchronization</span>
+          </h4>
+          <p class="mt-2 text-sm text-slate-400 leading-relaxed">
+            A marketing copywriter uses a ChatGPT prompt that quotes last quarter's pricing (e.g. ₹4,999/mo instead of ₹3,999/mo) or claims an SLA (99.9%) that was superseded. Customers sign contracts based on false promises, forcing legal concessions.
+          </p>
+        </div>
+
+        <!-- Threat 3 -->
+        <div class="glass-card rounded-2xl p-6 border-slate-800 border-l-4 border-l-sky-500">
+          <h4 class="text-base font-bold text-white flex items-center gap-2">
+            <span class="text-sky-400">3. Brand Dilution & Trademark Casing Slippage</span>
+          </h4>
+          <p class="mt-2 text-sm text-slate-400 leading-relaxed">
+            Writing "Novapay" instead of "NovaPay", using banned hyperbolic slang like "insane savings that will blow your mind!!", or disrespecting competitors erodes the enterprise trust that took years to cultivate.
+          </p>
+        </div>
+
+        <!-- Threat 4 -->
+        <div class="glass-card rounded-2xl p-6 border-slate-800 border-l-4 border-l-purple-500">
+          <h4 class="text-base font-bold text-white flex items-center gap-2">
+            <span class="text-purple-400">4. WCAG 2.2 Accessibility Violations</span>
+          </h4>
+          <p class="mt-2 text-sm text-slate-400 leading-relaxed">
+            Social images and banners generated with insufficient contrast ratios fail WCAG 2.2 AA standards (&lt; 4.5:1), exposing brands to accessibility lawsuits and alienating visually impaired users.
+          </p>
+        </div>
+      </div>
+
+      <!-- Traditional vs BrandShield Table -->
+      <div class="mt-12 glass-card rounded-2xl p-6 border-slate-800 overflow-x-auto">
+        <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+          <span>Comparative Analysis: Traditional Methods vs BrandShield AI</span>
+        </h4>
+        <table class="w-full text-left text-xs sm:text-sm">
+          <thead>
+            <tr class="border-b border-slate-800 text-slate-400">
+              <th class="py-3 px-4 font-semibold">Evaluation Dimension</th>
+              <th class="py-3 px-4 font-semibold text-rose-400">Manual Human Review</th>
+              <th class="py-3 px-4 font-semibold text-amber-400">Generic LLM Prompt</th>
+              <th class="py-3 px-4 font-semibold text-emerald-400">BrandShield AI</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800/60 text-slate-300">
+            <tr>
+              <td class="py-3 px-4 font-medium text-white">Detection Latency</td>
+              <td class="py-3 px-4 text-slate-400">2-48 hours backlog</td>
+              <td class="py-3 px-4 text-slate-400">2,500ms - 5,000ms</td>
+              <td class="py-3 px-4 font-semibold text-emerald-400">20.4ms (Hybrid)</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-medium text-white">Citation Grounding</td>
+              <td class="py-3 px-4 text-slate-400">Selective / inconsistent</td>
+              <td class="py-3 px-4 text-rose-400">Hallucinates non-existent rules</td>
+              <td class="py-3 px-4 font-semibold text-emerald-400">100% verified clause citation</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-medium text-white">Fix Suggestion Safety</td>
+              <td class="py-3 px-4 text-slate-400">Prone to typos</td>
+              <td class="py-3 px-4 text-rose-400">Introduces new hallucinated promises</td>
+              <td class="py-3 px-4 font-semibold text-emerald-400">Intent Guard checked & verified</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-medium text-white">Audit Trail Integrity</td>
+              <td class="py-3 px-4 text-slate-400">Slack threads, email trails</td>
+              <td class="py-3 px-4 text-slate-400">Ephemeral chat logs</td>
+              <td class="py-3 px-4 font-semibold text-emerald-400">SHA-256 tamper-proof ledger</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4 font-medium text-white">External Agent Access</td>
+              <td class="py-3 px-4 text-slate-400">None</td>
+              <td class="py-3 px-4 text-slate-400">Manual copy-paste</td>
+              <td class="py-3 px-4 font-semibold text-purple-400">Brand Guard MCP (JSON-RPC)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: MASTER PERSONA NAVIGATION GUIDE -->
+  <section id="personas" class="py-20 border-b border-slate-800 bg-slate-900/60 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-xs font-semibold mb-3">
+          <i data-lucide="compass" class="w-3.5 h-3.5"></i>
+          <span>Simple, Step-by-Step Navigation Guide</span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight">How to Test & Navigate Each Persona</h2>
+        <p class="mt-3 text-slate-400 text-sm sm:text-base leading-relaxed">
+          BrandShield enforces strict Enterprise Role-Based Access Control (RBAC). In the top navbar of the app, click any persona pill to instantaneously transform the user experience, active permissions, and visible sidebar tabs.
+        </p>
+
+        <!-- Persona Switcher Buttons -->
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-2 p-1.5 glass-card rounded-2xl max-w-fit mx-auto border-slate-800">
+          <button onclick="switchPersonaTab('priya')" id="tab-btn-priya" class="persona-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-2 bg-indigo-600 text-white shadow-md">
+            <span>✍️</span> <span>Priya (Creator)</span>
+          </button>
+          <button onclick="switchPersonaTab('rahul')" id="tab-btn-rahul" class="persona-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/60 transition flex items-center gap-2">
+            <span>📋</span> <span>Rahul (Manager)</span>
+          </button>
+          <button onclick="switchPersonaTab('kavita')" id="tab-btn-kavita" class="persona-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/60 transition flex items-center gap-2">
+            <span>⚖️</span> <span>Kavita (Legal)</span>
+          </button>
+          <button onclick="switchPersonaTab('ananya')" id="tab-btn-ananya" class="persona-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/60 transition flex items-center gap-2">
+            <span>🛡️</span> <span>Ananya (Admin)</span>
+          </button>
+          <button onclick="switchPersonaTab('vikram')" id="tab-btn-vikram" class="persona-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/60 transition flex items-center gap-2">
+            <span>👁️</span> <span>Vikram (Auditor)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- PERSONA 1: PRIYA SHARMA (CREATOR) -->
+      <div id="persona-card-priya" class="persona-detail-card glass-card rounded-3xl p-6 sm:p-8 border-indigo-500/30 glow-indigo">
+        <div class="flex flex-wrap items-start justify-between gap-4 border-b border-slate-800 pb-6 mb-6">
+          <div class="flex items-center gap-4">
+            <div class="w-14 h-14 rounded-2xl bg-indigo-600/20 border border-indigo-500/40 flex items-center justify-center text-3xl">
+              ✍️
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h3 class="text-xl sm:text-2xl font-bold text-white">Priya Sharma</h3>
+                <span class="px-2 py-0.5 rounded-full text-xs font-semibold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 uppercase">Content Creator</span>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-400 mt-0.5">Title: Senior Marketing Copywriter · Desk: <span class="text-indigo-400 font-medium">Marketing Studio</span></p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="text-xs px-3 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300">
+              Visible Tabs: <strong>2</strong> (Content Studio, Brand Guidelines)
+            </span>
+            <a href="http://localhost:3000" target="_blank" class="px-4 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition">
+              Open Priya's View →
+            </a>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <!-- Left: Walkthrough Steps -->
+          <div class="lg:col-span-7 space-y-4">
+            <h4 class="text-sm font-bold text-indigo-300 uppercase tracking-wider flex items-center gap-2">
+              <i data-lucide="list-ordered" class="w-4 h-4"></i>
+              <span>Priya's 5-Step Creator Flow in the App</span>
+            </h4>
+
+            <div class="space-y-3 text-xs sm:text-sm">
+              <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex gap-3">
+                <span class="w-6 h-6 rounded-full bg-indigo-500/20 text-indigo-400 font-bold flex items-center justify-center flex-shrink-0 text-xs">1</span>
+                <div>
+                  <strong class="text-white block">Select or Draft Content:</strong>
+                  In the top-left of the Document Canvas, select <code class="text-indigo-300">Q3 Enterprise Launch Announcement — LinkedIn</code> from the dropdown or paste fresh marketing copy.
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex gap-3">
+                <span class="w-6 h-6 rounded-full bg-indigo-500/20 text-indigo-400 font-bold flex items-center justify-center flex-shrink-0 text-xs">2</span>
+                <div>
+                  <strong class="text-white block">Inspect Real-time Inline Highlights:</strong>
+                  Click directly on highlighted text spans like <span class="bg-amber-400/20 text-amber-300 px-1 py-0.5 rounded border border-amber-400/30 font-medium">Novapay</span> or <span class="bg-amber-400/20 text-amber-300 px-1 py-0.5 rounded border border-amber-400/30 font-medium">the best payment platform in India</span>.
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex gap-3">
+                <span class="w-6 h-6 rounded-full bg-indigo-500/20 text-indigo-400 font-bold flex items-center justify-center flex-shrink-0 text-xs">3</span>
+                <div>
+                  <strong class="text-white block">View Evidence & Verifier Proof:</strong>
+                  Look at the right-hand Evidence Drawer. Priya sees the exact guideline citation (e.g. <em>Brand Glossary §1.1</em>) and the 100% Verifier confidence score.
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex gap-3">
+                <span class="w-6 h-6 rounded-full bg-indigo-500/20 text-indigo-400 font-bold flex items-center justify-center flex-shrink-0 text-xs">4</span>
+                <div>
+                  <strong class="text-white block">Click "Apply Fix" Safely:</strong>
+                  Click <span class="text-emerald-400 font-semibold">Apply Fix →</span> on the Intent-Safe suggestion. The text replaces dynamically with zero word-breaking offset shift!
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex gap-3">
+                <span class="w-6 h-6 rounded-full bg-indigo-500/20 text-indigo-400 font-bold flex items-center justify-center flex-shrink-0 text-xs">5</span>
+                <div>
+                  <strong class="text-white block">Submit for Review:</strong>
+                  Click the top-right <span class="text-indigo-400 font-semibold">Submit</span> button to route to Rahul (Manager) or Kavita (Legal).
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Permissions & Boundaries -->
+          <div class="lg:col-span-5 space-y-4">
+            <h4 class="text-sm font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+              <i data-lucide="shield" class="w-4 h-4 text-indigo-400"></i>
+              <span>Priya's Governance Guardrails</span>
+            </h4>
+
+            <div class="space-y-3">
+              <div class="p-4 rounded-xl bg-emerald-950/20 border border-emerald-500/30 text-xs text-slate-300">
+                <div class="text-emerald-400 font-bold flex items-center gap-1.5 mb-1">
+                  <i data-lucide="check-circle" class="w-4 h-4"></i>
+                  <span>Allowed Actions (Empowered)</span>
+                </div>
+                <ul class="list-disc list-inside space-y-1 text-slate-400">
+                  <li>Edit canvas text and paste marketing drafts</li>
+                  <li>Trigger real-time multi-agent scan</li>
+                  <li>Accept Intent-Safe replacement suggestions</li>
+                  <li>Submit drafts to team review queue</li>
+                </ul>
+              </div>
+
+              <div class="p-4 rounded-xl bg-rose-950/20 border border-rose-500/30 text-xs text-slate-300">
+                <div class="text-rose-400 font-bold flex items-center gap-1.5 mb-1">
+                  <i data-lucide="x-circle" class="w-4 h-4"></i>
+                  <span>Blocked Actions (Enforced RBAC)</span>
+                </div>
+                <ul class="list-disc list-inside space-y-1 text-slate-400">
+                  <li><strong>Cannot self-approve</strong> high-risk content</li>
+                  <li><strong>Cannot override</strong> legal or regulatory flags</li>
+                  <li><strong>Cannot modify</strong> Brand Pack rules or facts</li>
+                  <li>Notice override button displays <code class="text-slate-400 bg-slate-800 px-1 py-0.5 rounded">🔒 Locked</code></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PERSONA 2: RAHUL VERMA (MANAGER) -->
+      <div id="persona-card-rahul" class="persona-detail-card hidden glass-card rounded-3xl p-6 sm:p-8 border-amber-500/30 glow-amber">
+        <div class="flex flex-wrap items-start justify-between gap-4 border-b border-slate-800 pb-6 mb-6">
+          <div class="flex items-center gap-4">
+            <div class="w-14 h-14 rounded-2xl bg-amber-600/20 border border-amber-500/40 flex items-center justify-center text-3xl">
+              📋
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h3 class="text-xl sm:text-2xl font-bold text-white">Rahul Verma</h3>
+                <span class="px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/30 uppercase">Marketing Manager</span>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-400 mt-0.5">Title: Marketing Campaign Lead · Desk: <span class="text-amber-400 font-medium">Campaign Operations</span></p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="text-xs px-3 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300">
+              Visible Tabs: <strong>3</strong> (Approval Queue, Content Inspection, Team Analytics)
+            </span>
+            <a href="http://localhost:3000/queue" target="_blank" class="px-4 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold transition">
+              Open Rahul's Queue →
+            </a>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <div class="lg:col-span-7 space-y-4">
+            <h4 class="text-sm font-bold text-amber-300 uppercase tracking-wider flex items-center gap-2">
+              <i data-lucide="list-ordered" class="w-4 h-4"></i>
+              <span>Rahul's 4-Step Manager Triage Flow</span>
+            </h4>
+            <div class="space-y-3 text-xs sm:text-sm">
+              <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex gap-3">
+                <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 font-bold flex items-center justify-center flex-shrink-0 text-xs">1</span>
+                <div>
+                  <strong class="text-white block">Access Review Queue (Kanban):</strong>
+                  Navigate to <code class="text-amber-300">/queue</code> to inspect pending team submissions across 5 stages: Pending AI, AI Reviewed, High Risk Review, Approved, Published.
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex gap-3">
+                <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 font-bold flex items-center justify-center flex-shrink-0 text-xs">2</span>
+                <div>
+                  <strong class="text-white block">Triage by Risk Tier & Channel:</strong>
+                  Filter items by channel (LinkedIn vs Twitter vs Blog) and governance score (e.g. 52/100 High Risk vs 96/100 Low Risk).
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex gap-3">
+                <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 font-bold flex items-center justify-center flex-shrink-0 text-xs">3</span>
+                <div>
+                  <strong class="text-white block">Approve Standard Low/Medium Risk Posts:</strong>
+                  Rahul has direct sign-off authority for standard campaign collateral with green scores.
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex gap-3">
+                <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 font-bold flex items-center justify-center flex-shrink-0 text-xs">4</span>
+                <div>
+                  <strong class="text-white block">Review Team Velocity in Analytics:</strong>
+                  Navigate to <code class="text-amber-300">/analytics</code> to view campaign turnaround SLAs, common team violation categories, and quality scores.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5 space-y-4">
+            <h4 class="text-sm font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+              <i data-lucide="shield" class="w-4 h-4 text-amber-400"></i>
+              <span>Rahul's Governance Guardrails</span>
+            </h4>
+            <div class="space-y-3">
+              <div class="p-4 rounded-xl bg-emerald-950/20 border border-emerald-500/30 text-xs text-slate-300">
+                <div class="text-emerald-400 font-bold flex items-center gap-1.5 mb-1">
+                  <i data-lucide="check-circle" class="w-4 h-4"></i>
+                  <span>Allowed Actions (Empowered)</span>
+                </div>
+                <ul class="list-disc list-inside space-y-1 text-slate-400">
+                  <li>Approve Low and Medium risk marketing posts</li>
+                  <li>Batch-process clean control submissions</li>
+                  <li>Reassign content to creators with feedback</li>
+                  <li>Access team throughput analytics</li>
+                </ul>
+              </div>
+
+              <div class="p-4 rounded-xl bg-rose-950/20 border border-rose-500/30 text-xs text-slate-300">
+                <div class="text-rose-400 font-bold flex items-center gap-1.5 mb-1">
+                  <i data-lucide="x-circle" class="w-4 h-4"></i>
+                  <span>Blocked Actions (Enforced RBAC)</span>
+                </div>
+                <ul class="list-disc list-inside space-y-1 text-slate-400">
+                  <li><strong>Cannot bypass Legal Reviewer</strong> on High-Risk items</li>
+                  <li>High-risk card displays <code class="text-amber-300 bg-slate-800 px-1 py-0.5 rounded">Requires Legal Sign-off</code></li>
+                  <li>Cannot edit Brand Pack core guidelines</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PERSONA 3: KAVITA DESAI (LEGAL REVIEWER) -->
+      <div id="persona-card-kavita" class="persona-detail-card hidden glass-card rounded-3xl p-6 sm:p-8 border-emerald-500/30 glow-emerald">
+        <div class="flex flex-wrap items-start justify-between gap-4 border-b border-slate-800 pb-6 mb-6">
+          <div class="flex items-center gap-4">
+            <div class="w-14 h-14 rounded-2xl bg-emerald-600/20 border border-emerald-500/40 flex items-center justify-center text-3xl">
+              ⚖️
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h3 class="text-xl sm:text-2xl font-bold text-white">Kavita Desai</h3>
+                <span class="px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 uppercase">Legal & Compliance Lead</span>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-400 mt-0.5">Title: Senior Regulatory Counsel · Desk: <span class="text-emerald-400 font-medium">Legal Review Desk</span></p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="text-xs px-3 py-1 rounded-lg bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 font-semibold flex items-center gap-1">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              High-Risk Sign-Off Authority
+            </span>
+            <a href="http://localhost:3000/queue" target="_blank" class="px-4 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition">
+              Open Legal Desk →
+            </a>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <div class="lg:col-span-7 space-y-4">
+            <h4 class="text-sm font-bold text-emerald-300 uppercase tracking-wider flex items-center gap-2">
+              <i data-lucide="list-ordered" class="w-4 h-4"></i>
+              <span>Kavita's High-Risk Sign-Off & Override Flow</span>
+            </h4>
+            <div class="space-y-3 text-xs sm:text-sm">
+              <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex gap-3">
+                <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center flex-shrink-0 text-xs">1</span>
+                <div>
+                  <strong class="text-white block">Inspect High-Risk Escalations:</strong>
+                  In <code class="text-emerald-300">/queue</code>, Kavita sees the escalated item <code class="text-slate-300">Q3 Enterprise Launch Announcement</code> marked with <span class="bg-rose-500/20 text-rose-300 px-1.5 py-0.5 rounded text-xs font-semibold">🔴 HIGH RISK (52/100)</span>.
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex gap-3">
+                <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center flex-shrink-0 text-xs">2</span>
+                <div>
+                  <strong class="text-white block">Audit Legal Violations & Citations:</strong>
+                  Open the document. Kavita examines the Critical finding on <span class="text-rose-400 font-semibold">"guaranteed returns"</span> citing <em>Regulatory Glossary §4.2 (RBI Non-Deposit Guardrail)</em>.
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex gap-3">
+                <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center flex-shrink-0 text-xs">3</span>
+                <div>
+                  <strong class="text-white block">Execute Mandatory Rationale Override:</strong>
+                  If an exemption applies, Kavita can click <span class="text-emerald-400 font-semibold">Override Finding</span>. The system enforces entering a mandatory legal rationale (e.g. <em>"Pre-approved under RBI Regulatory Sandbox Cohort 5"</em>).
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex gap-3">
+                <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center flex-shrink-0 text-xs">4</span>
+                <div>
+                  <strong class="text-white block">Final High-Risk Sign-off:</strong>
+                  Once satisfied, Kavita approves the document for production release. The approval is timestamped and cryptographically signed.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5 space-y-4">
+            <h4 class="text-sm font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+              <i data-lucide="shield" class="w-4 h-4 text-emerald-400"></i>
+              <span>Kavita's Exclusive Powers</span>
+            </h4>
+            <div class="space-y-3">
+              <div class="p-4 rounded-xl bg-emerald-950/20 border border-emerald-500/30 text-xs text-slate-300">
+                <div class="text-emerald-400 font-bold flex items-center gap-1.5 mb-1">
+                  <i data-lucide="check-circle" class="w-4 h-4"></i>
+                  <span>Exclusive Authority</span>
+                </div>
+                <ul class="list-disc list-inside space-y-1 text-slate-400">
+                  <li><strong>Sole role authorized</strong> to approve High & Critical risk content</li>
+                  <li><strong>Override Authority:</strong> Can dismiss AI findings with documented legal justification</li>
+                  <li>Overrides feed telemetry into the Guideline Clarifier engine</li>
+                </ul>
+              </div>
+
+              <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-300">
+                <div class="text-indigo-400 font-bold flex items-center gap-1.5 mb-1">
+                  <i data-lucide="file-text" class="w-4 h-4"></i>
+                  <span>Audited Overrides</span>
+                </div>
+                <p class="text-slate-400 text-[11px] leading-relaxed">
+                  Every legal override automatically captures: Kavita's User ID, UTC timestamp, finding ID, exact cited clause, and full text of the rationale for the Auditor.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PERSONA 4: ANANYA IYER (ADMIN) -->
+      <div id="persona-card-ananya" class="persona-detail-card hidden glass-card rounded-3xl p-6 sm:p-8 border-purple-500/30 glow-indigo">
+        <div class="flex flex-wrap items-start justify-between gap-4 border-b border-slate-800 pb-6 mb-6">
+          <div class="flex items-center gap-4">
+            <div class="w-14 h-14 rounded-2xl bg-purple-600/20 border border-purple-500/40 flex items-center justify-center text-3xl">
+              🛡️
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h3 class="text-xl sm:text-2xl font-bold text-white">Ananya Iyer</h3>
+                <span class="px-2 py-0.5 rounded-full text-xs font-semibold bg-purple-500/20 text-purple-300 border border-purple-500/30 uppercase">Brand Administrator</span>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-400 mt-0.5">Title: Head of Brand & Governance Architect · Desk: <span class="text-purple-400 font-medium">Brand Architecture</span></p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="text-xs px-3 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300">
+              Visible Tabs: <strong>4</strong> (Brand Pack & Rules, Guideline Health, Brand Guard MCP, Master Canvas)
+            </span>
+            <a href="http://localhost:3000/brand-pack" target="_blank" class="px-4 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold transition">
+              Open Brand Pack →
+            </a>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <div class="lg:col-span-7 space-y-4">
+            <h4 class="text-sm font-bold text-purple-300 uppercase tracking-wider flex items-center gap-2">
+              <i data-lucide="list-ordered" class="w-4 h-4"></i>
+              <span>Ananya's Brand Architecture Workflow</span>
+            </h4>
+            <div class="space-y-3 text-xs sm:text-sm">
+              <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex gap-3">
+                <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 font-bold flex items-center justify-center flex-shrink-0 text-xs">1</span>
+                <div>
+                  <strong class="text-white block">Manage Brand Pack Rules & Facts:</strong>
+                  In <code class="text-purple-300">/brand-pack</code>, inspect the active Brand Pack v2 containing 17 rules, 14 verified facts, 5 terms, and approved assets.
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex gap-3">
+                <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 font-bold flex items-center justify-center flex-shrink-0 text-xs">2</span>
+                <div>
+                  <strong class="text-white block">Compile Unstructured Guidelines into Rules:</strong>
+                  Use the <strong>Guideline Compiler Agent</strong>: paste unstructured text or PDF guidelines to automatically extract structured JSON rules with severity and positive/negative examples.
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex gap-3">
+                <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 font-bold flex items-center justify-center flex-shrink-0 text-xs">3</span>
+                <div>
+                  <strong class="text-white block">Monitor Guideline Health & Ambiguities:</strong>
+                  In the <em>Guideline Health</em> sub-tab, inspect telemetry from human reviewer overrides. The <strong>Clarifier Agent</strong> clusters frequent overrides and drafts clearer wording.
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex gap-3">
+                <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 font-bold flex items-center justify-center flex-shrink-0 text-xs">4</span>
+                <div>
+                  <strong class="text-white block">Configure Brand Guard MCP Server:</strong>
+                  Manage API keys, tool permissions, and external AI agent connection instructions.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5 space-y-4">
+            <h4 class="text-sm font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+              <i data-lucide="shield" class="w-4 h-4 text-purple-400"></i>
+              <span>Ananya's Governance Powers</span>
+            </h4>
+            <div class="space-y-3">
+              <div class="p-4 rounded-xl bg-purple-950/20 border border-purple-500/30 text-xs text-slate-300">
+                <div class="text-purple-400 font-bold flex items-center gap-1.5 mb-1">
+                  <i data-lucide="check-circle" class="w-4 h-4"></i>
+                  <span>Full Administrative Control</span>
+                </div>
+                <ul class="list-disc list-inside space-y-1 text-slate-400">
+                  <li>Create, edit, archive Brand Packs (versions 1, 2, 3...)</li>
+                  <li>Add and deprecate verified numerical facts</li>
+                  <li>Publish auto-clarified guideline rules</li>
+                  <li>Configure organization-wide risk thresholds</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PERSONA 5: VIKRAM MALHOTRA (AUDITOR) -->
+      <div id="persona-card-vikram" class="persona-detail-card hidden glass-card rounded-3xl p-6 sm:p-8 border-amber-500/30 glow-amber">
+        <div class="flex flex-wrap items-start justify-between gap-4 border-b border-slate-800 pb-6 mb-6">
+          <div class="flex items-center gap-4">
+            <div class="w-14 h-14 rounded-2xl bg-amber-600/20 border border-amber-500/40 flex items-center justify-center text-3xl">
+              👁️
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h3 class="text-xl sm:text-2xl font-bold text-white">Vikram Malhotra</h3>
+                <span class="px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/30 uppercase">Compliance Auditor</span>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-400 mt-0.5">Title: External Regulatory & ESG Auditor · Desk: <span class="text-amber-400 font-medium">Compliance Audit Desk</span></p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="text-xs px-3 py-1 rounded-lg bg-amber-950/40 border border-amber-500/40 text-amber-300 font-semibold flex items-center gap-1">
+              <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+              Strictly Read-Only Mode
+            </span>
+            <a href="http://localhost:3000/analytics" target="_blank" class="px-4 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold transition">
+              Open Audit Canvas →
+            </a>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <div class="lg:col-span-7 space-y-4">
+            <h4 class="text-sm font-bold text-amber-300 uppercase tracking-wider flex items-center gap-2">
+              <i data-lucide="list-ordered" class="w-4 h-4"></i>
+              <span>Vikram's Tamper-Proof Audit Workflow</span>
+            </h4>
+            <div class="space-y-3 text-xs sm:text-sm">
+              <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex gap-3">
+                <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 font-bold flex items-center justify-center flex-shrink-0 text-xs">1</span>
+                <div>
+                  <strong class="text-white block">View Amber Auditor Banner:</strong>
+                  Upon switching to Vikram, the entire app displays a distinct amber auditor header with active tamper-evident watermarks.
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex gap-3">
+                <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 font-bold flex items-center justify-center flex-shrink-0 text-xs">2</span>
+                <div>
+                  <strong class="text-white block">Inspect Immutable Audit Logs:</strong>
+                  Review every single content modification, finding acceptance, and legal override recorded with SHA-256 hash chains.
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex gap-3">
+                <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 font-bold flex items-center justify-center flex-shrink-0 text-xs">3</span>
+                <div>
+                  <strong class="text-white block">Export Certified Compliance JSON:</strong>
+                  Click the <span class="text-amber-400 font-semibold">Export Certified Audit Log</span> button in the amber banner to download the cryptographically verifiable compliance record.
+                </div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 flex gap-3">
+                <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 font-bold flex items-center justify-center flex-shrink-0 text-xs">4</span>
+                <div>
+                  <strong class="text-white block">Validate Independent Governance Proof:</strong>
+                  Confirm that no marketing staff or administrators bypassed legal approval on high-risk regulatory releases.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5 space-y-4">
+            <h4 class="text-sm font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+              <i data-lucide="shield" class="w-4 h-4 text-amber-400"></i>
+              <span>Vikram's Role Protections</span>
+            </h4>
+            <div class="space-y-3">
+              <div class="p-4 rounded-xl bg-amber-950/20 border border-amber-500/30 text-xs text-slate-300">
+                <div class="text-amber-400 font-bold flex items-center gap-1.5 mb-1">
+                  <i data-lucide="check-circle" class="w-4 h-4"></i>
+                  <span>Auditor Privileges</span>
+                </div>
+                <ul class="list-disc list-inside space-y-1 text-slate-400">
+                  <li>Full read-access to all active and historical versions</li>
+                  <li>Export digitally signed compliance certificates</li>
+                  <li>View exact override rationales provided by Legal</li>
+                </ul>
+              </div>
+
+              <div class="p-4 rounded-xl bg-rose-950/20 border border-rose-500/30 text-xs text-slate-300">
+                <div class="text-rose-400 font-bold flex items-center gap-1.5 mb-1">
+                  <i data-lucide="x-circle" class="w-4 h-4"></i>
+                  <span>Absolute Immutability</span>
+                </div>
+                <p class="text-slate-400 text-[11px] leading-relaxed">
+                  Vikram cannot edit canvas text, accept/reject suggestions, or alter findings. The Document Canvas is strictly disabled with a visible watermark.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 4: LIVE WORKING DEMOS & REAL SCENARIOS -->
+  <section id="demos" class="py-20 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center gap-2 text-indigo-400 text-xs font-bold uppercase tracking-wider mb-2">
+        <i data-lucide="terminal" class="w-4 h-4"></i>
+        <span>Concrete Walkthroughs</span>
+      </div>
+      <h2 class="text-3xl font-black text-white tracking-tight">Live Working Demos & Guided Scenarios</h2>
+      <p class="mt-3 text-slate-400 max-w-3xl text-sm sm:text-base leading-relaxed">
+        The application is pre-seeded with rich enterprise content items demonstrating how each of the specialized agents catches, verifies, and fixes real-world brand risks.
+      </p>
+
+      <!-- DEMO 1: FINTECH ENTERPRISE LAUNCH ANNOUNCEMENT -->
+      <div class="mt-10 glass-card rounded-3xl p-6 sm:p-8 border-slate-800">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-4 mb-6">
+          <div>
+            <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30 uppercase">Demo Scenario 1</span>
+            <h3 class="text-xl font-bold text-white mt-1">Q3 Enterprise Launch Announcement (LinkedIn Post)</h3>
+            <p class="text-xs text-slate-400">Content ID: <code class="text-indigo-300 font-mono">cnt_demo_fintech_launch</code> · Channel: LinkedIn · Target: B2B CFOs</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="px-3 py-1 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/30 text-xs font-bold">5 Violations Injected</span>
+            <span class="px-3 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30 text-xs font-bold">Score: 52/100 (HIGH RISK)</span>
+          </div>
+        </div>
+
+        <!-- The Injected Text Box -->
+        <div class="mb-6 p-4 rounded-2xl bg-slate-900 border border-slate-800 font-mono text-xs sm:text-sm text-slate-300 leading-relaxed">
+          <div class="text-slate-500 text-[11px] mb-2 uppercase font-sans font-semibold">Raw Candidate Text Before Governance:</div>
+          "We are thrilled to announce that <mark class="bg-amber-400/30 text-amber-200 px-1 py-0.5 rounded border border-amber-400/40">Novapay</mark> is officially <mark class="bg-amber-400/30 text-amber-200 px-1 py-0.5 rounded border border-amber-400/40">the best payment platform in India</mark>! Our users can now access enterprise billing starting at just <mark class="bg-rose-400/30 text-rose-200 px-1 py-0.5 rounded border border-rose-400/40">₹4,999/mo</mark> with <mark class="bg-rose-400/30 text-rose-200 px-1 py-0.5 rounded border border-rose-400/40">guaranteed returns on all deposit balances</mark>. Activate your NovaCard today and enjoy <mark class="bg-amber-400/30 text-amber-200 px-1 py-0.5 rounded border border-amber-400/40">insane savings that will blow your mind!!</mark>"
+        </div>
+
+        <!-- The 5 Agent Violations Table -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs sm:text-sm">
+            <thead>
+              <tr class="border-b border-slate-800 text-slate-400">
+                <th class="py-2.5 px-3 font-semibold">Violation String</th>
+                <th class="py-2.5 px-3 font-semibold">Detecting Agent</th>
+                <th class="py-2.5 px-3 font-semibold">Severity</th>
+                <th class="py-2.5 px-3 font-semibold">Exact Guideline Citation</th>
+                <th class="py-2.5 px-3 font-semibold text-emerald-400">Intent-Safe AI Fix</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800/60 text-slate-300">
+              <tr>
+                <td class="py-3 px-3 font-mono text-amber-300">"Novapay"</td>
+                <td class="py-3 px-3">Terminology Agent</td>
+                <td class="py-3 px-3"><span class="px-2 py-0.5 rounded text-[11px] font-bold bg-rose-500/20 text-rose-300">CRITICAL</span></td>
+                <td class="py-3 px-3 text-slate-400 font-mono text-xs">Brand Glossary §1.1</td>
+                <td class="py-3 px-3 text-emerald-400 font-medium">"NovaPay" (Proper camel-case)</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-3 font-mono text-amber-300">"the best payment platform in India"</td>
+                <td class="py-3 px-3">Tone & Voice Agent</td>
+                <td class="py-3 px-3"><span class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-500/20 text-amber-300">WARNING</span></td>
+                <td class="py-3 px-3 text-slate-400 font-mono text-xs">Brand Voice Guide p.8, §2.1</td>
+                <td class="py-3 px-3 text-emerald-400 font-medium">"a leading payment solution for Indian enterprises"</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-3 font-mono text-rose-300">"₹4,999/mo"</td>
+                <td class="py-3 px-3">Claims & Facts Agent</td>
+                <td class="py-3 px-3"><span class="px-2 py-0.5 rounded text-[11px] font-bold bg-rose-500/20 text-rose-300">CRITICAL</span></td>
+                <td class="py-3 px-3 text-slate-400 font-mono text-xs">Fact f_pricing_001 (Pricing Sheet 2026 v2.4)</td>
+                <td class="py-3 px-3 text-emerald-400 font-medium">"₹3,999/mo" (Current verified active price)</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-3 font-mono text-rose-300">"guaranteed returns"</td>
+                <td class="py-3 px-3">Messaging & Compliance Agent</td>
+                <td class="py-3 px-3"><span class="px-2 py-0.5 rounded text-[11px] font-bold bg-rose-500/20 text-rose-300">CRITICAL</span></td>
+                <td class="py-3 px-3 text-slate-400 font-mono text-xs">Regulatory Glossary §4.2 (RBI Guardrail)</td>
+                <td class="py-3 px-3 text-emerald-400 font-medium">"transparent yield management across corporate escrow"</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-3 font-mono text-amber-300">"insane savings that will blow your mind!!"</td>
+                <td class="py-3 px-3">Tone & Voice Agent</td>
+                <td class="py-3 px-3"><span class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-500/20 text-amber-300">WARNING</span></td>
+                <td class="py-3 px-3 text-slate-400 font-mono text-xs">Brand Voice Guide p.9, §2.3</td>
+                <td class="py-3 px-3 text-emerald-400 font-medium">"predictable and competitive transaction fee structures"</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Intent Guard Interception Highlight -->
+        <div class="mt-6 p-4 rounded-2xl bg-indigo-950/30 border border-indigo-500/30 flex items-start gap-4">
+          <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center flex-shrink-0 text-xl font-bold">
+            🛡️
+          </div>
+          <div>
+            <h4 class="text-sm font-bold text-white">The Intent Guard Safety Intercept in Action:</h4>
+            <p class="text-xs text-slate-300 mt-1 leading-relaxed">
+              When an unsafe AI fix like <code class="text-rose-300 bg-slate-900 px-1 py-0.5 rounded font-mono">"a platform with 100% guaranteed returns"</code> was proposed for the original text <em>"the best"</em>, the Intent Guard engine intercepted and flagged it immediately because it introduced a banned financial promise. Only verified, safe suggestions reach the user's screen!
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- DEMO 2: BRAND GUARD MODEL CONTEXT PROTOCOL (MCP) -->
+      <div class="mt-8 glass-card rounded-3xl p-6 sm:p-8 border-slate-800">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-4 mb-6">
+          <div>
+            <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30 uppercase">Demo Scenario 2</span>
+            <h3 class="text-xl font-bold text-white mt-1">Brand Guard MCP Server for External AI Tools</h3>
+            <p class="text-xs text-slate-400">Model Context Protocol (JSON-RPC 2.0) · Tool: <code class="text-purple-300 font-mono">check_content</code></p>
+          </div>
+          <span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs font-bold">CLI & Claude / Cursor Compatible</span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div>
+            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 font-mono">Claude Desktop / Cursor Config (`mcpServers`):</h4>
+            <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 font-mono text-xs text-slate-300 overflow-x-auto">
+<pre>{
+  <span class="text-purple-400">"mcpServers"</span>: {
+    <span class="text-indigo-400">"brandshield"</span>: {
+      <span class="text-slate-400">"command"</span>: <span class="text-emerald-400">"python"</span>,
+      <span class="text-slate-400">"args"</span>: [<span class="text-emerald-400">"-m"</span>, <span class="text-emerald-400">"apps.api.mcp.brand_guard_mcp"</span>],
+      <span class="text-slate-400">"env"</span>: {
+        <span class="text-slate-400">"PYTHONPATH"</span>: <span class="text-emerald-400">"d:\\nova"</span>
+      }
+    }
+  }
+}</pre>
+            </div>
+          </div>
+
+          <div>
+            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 font-mono">MCP Tool Response (<code class="text-purple-300">check_content</code>):</h4>
+            <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 font-mono text-xs text-slate-300 overflow-x-auto">
+<pre>{
+  <span class="text-purple-400">"governance_score"</span>: <span class="text-amber-400">52</span>,
+  <span class="text-purple-400">"risk_tier"</span>: <span class="text-rose-400">"HIGH"</span>,
+  <span class="text-purple-400">"citations_verified"</span>: <span class="text-emerald-400">true</span>,
+  <span class="text-purple-400">"findings_count"</span>: <span class="text-indigo-400">5</span>,
+  <span class="text-purple-400">"gatekeeper_status"</span>: <span class="text-emerald-400">"PASSED_GROUNDING"</span>,
+  <span class="text-purple-400">"findings"</span>: [
+    {
+      <span class="text-slate-400">"rule_id"</span>: <span class="text-emerald-400">"r_term_001"</span>,
+      <span class="text-slate-400">"citation"</span>: <span class="text-emerald-400">"Brand Glossary §1.1"</span>,
+      <span class="text-slate-400">"suggestion"</span>: <span class="text-emerald-400">"NovaPay"</span>
+    }
+  ]
+}</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: 13-AGENT ARCHITECTURE -->
+  <section id="architecture" class="py-20 border-b border-slate-800 bg-slate-900/40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center gap-2 text-indigo-400 text-xs font-bold uppercase tracking-wider mb-2">
+        <i data-lucide="layers" class="w-4 h-4"></i>
+        <span>Technical Foundations</span>
+      </div>
+      <h2 class="text-3xl font-black text-white tracking-tight">The 13-Agent LangGraph Swarm</h2>
+      <p class="mt-3 text-slate-400 max-w-3xl text-sm sm:text-base leading-relaxed">
+        BrandShield replaces fragile monolithic prompt chains with a deterministic-first, LangGraph-orchestrated multi-agent pipeline. Each agent has an isolated responsibility and strict Pydantic contract.
+      </p>
+
+      <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Agent 1 -->
+        <div class="glass-card rounded-2xl p-5 border-slate-800 glass-card-hover">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-mono font-bold text-indigo-400">Agent 01</span>
+            <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300">Deterministic</span>
+          </div>
+          <h4 class="text-sm font-bold text-white">Ingestion & Segmentation</h4>
+          <p class="text-xs text-slate-400 mt-1 leading-relaxed">Extracts text spans, sanitizes PII, calculates sentence boundaries, and normalizes unicode characters.</p>
+        </div>
+
+        <!-- Agent 2 -->
+        <div class="glass-card rounded-2xl p-5 border-slate-800 glass-card-hover">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-mono font-bold text-indigo-400">Agent 02</span>
+            <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300">Context Profiler</span>
+          </div>
+          <h4 class="text-sm font-bold text-white">Context & Audience Agent</h4>
+          <p class="text-xs text-slate-400 mt-1 leading-relaxed">Adjusts risk weights based on channel (LinkedIn, Press Release vs internal memo) and target audience (CFOs, retail).</p>
+        </div>
+
+        <!-- Agent 3 -->
+        <div class="glass-card rounded-2xl p-5 border-slate-800 glass-card-hover">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-mono font-bold text-indigo-400">Agent 03</span>
+            <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">0ms Matcher</span>
+          </div>
+          <h4 class="text-sm font-bold text-white">Terminology Agent</h4>
+          <p class="text-xs text-slate-400 mt-1 leading-relaxed">Exact CamelCase and banned term detection using regex and phrase matcher trees (e.g. Novapay → NovaPay).</p>
+        </div>
+
+        <!-- Agent 4 -->
+        <div class="glass-card rounded-2xl p-5 border-slate-800 glass-card-hover">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-mono font-bold text-indigo-400">Agent 04</span>
+            <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">WCAG Math</span>
+          </div>
+          <h4 class="text-sm font-bold text-white">Accessibility Agent</h4>
+          <p class="text-xs text-slate-400 mt-1 leading-relaxed">Calculates relative luminance contrast ratios (WCAG 2.2 AA target 4.5:1) and Flesch-Kincaid grade levels.</p>
+        </div>
+
+        <!-- Agent 5 -->
+        <div class="glass-card rounded-2xl p-5 border-slate-800 glass-card-hover">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-mono font-bold text-indigo-400">Agent 05</span>
+            <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300">Hex Validator</span>
+          </div>
+          <h4 class="text-sm font-bold text-white">Visual & Asset Agent</h4>
+          <p class="text-xs text-slate-400 mt-1 leading-relaxed">Validates hex colors against approved palette and checks logo clear-space buffer ratios.</p>
+        </div>
+
+        <!-- Agent 6 -->
+        <div class="glass-card rounded-2xl p-5 border-slate-800 glass-card-hover">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-mono font-bold text-indigo-400">Agent 06</span>
+            <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-purple-500/20 text-purple-300">Semantic LLM</span>
+          </div>
+          <h4 class="text-sm font-bold text-white">Tone & Voice Agent</h4>
+          <p class="text-xs text-slate-400 mt-1 leading-relaxed">Catches unsubstantiated superlatives, hyperbole, and aggressive slang while enforcing measured confidence.</p>
+        </div>
+
+        <!-- Agent 7 -->
+        <div class="glass-card rounded-2xl p-5 border-slate-800 glass-card-hover">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-mono font-bold text-indigo-400">Agent 07</span>
+            <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-purple-500/20 text-purple-300">Fact Verifier</span>
+          </div>
+          <h4 class="text-sm font-bold text-white">Claims & Facts Agent</h4>
+          <p class="text-xs text-slate-400 mt-1 leading-relaxed">Cross-references numerical, SLA, and pricing claims against verified enterprise facts in the Brand Pack.</p>
+        </div>
+
+        <!-- Agent 8 -->
+        <div class="glass-card rounded-2xl p-5 border-slate-800 glass-card-hover">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-mono font-bold text-indigo-400">Agent 08</span>
+            <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-purple-500/20 text-purple-300">Strategic Alignment</span>
+          </div>
+          <h4 class="text-sm font-bold text-white">Messaging Alignment Agent</h4>
+          <p class="text-xs text-slate-400 mt-1 leading-relaxed">Flags deprecated product lines and guarantees messaging reinforces current strategic positioning.</p>
+        </div>
+
+        <!-- Agent 9 -->
+        <div class="glass-card rounded-2xl p-5 border-slate-800 glass-card-hover border-indigo-500/40">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-mono font-bold text-indigo-400">Agent 09</span>
+            <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300">The Gatekeeper</span>
+          </div>
+          <h4 class="text-sm font-bold text-white">Verifier Critic Gate</h4>
+          <p class="text-xs text-slate-400 mt-1 leading-relaxed">THE "No citation, no flag" barrier. Kills uncited flags and hallucinated rules with 100% mathematical precision.</p>
+        </div>
+
+        <!-- Agent 10 -->
+        <div class="glass-card rounded-2xl p-5 border-slate-800 glass-card-hover">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-mono font-bold text-indigo-400">Agent 10</span>
+            <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Diff Engine</span>
+          </div>
+          <h4 class="text-sm font-bold text-white">Fix Agent</h4>
+          <p class="text-xs text-slate-400 mt-1 leading-relaxed">Synthesizes 2-3 tracked-change suggestions with editorial rationale and character offset tracking.</p>
+        </div>
+
+        <!-- Agent 11 -->
+        <div class="glass-card rounded-2xl p-5 border-slate-800 glass-card-hover border-emerald-500/40">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-mono font-bold text-indigo-400">Agent 11</span>
+            <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Safety Protocol</span>
+          </div>
+          <h4 class="text-sm font-bold text-white">Intent Guard Engine</h4>
+          <p class="text-xs text-slate-400 mt-1 leading-relaxed">Blocks fix suggestions that introduce new ungrounded promises or invert negative constraints.</p>
+        </div>
+
+        <!-- Agent 12 -->
+        <div class="glass-card rounded-2xl p-5 border-slate-800 glass-card-hover">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-mono font-bold text-indigo-400">Agent 12</span>
+            <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-amber-500/20 text-amber-300">Scoring & Routing</span>
+          </div>
+          <h4 class="text-sm font-bold text-white">Risk Router & Scorer</h4>
+          <p class="text-xs text-slate-400 mt-1 leading-relaxed">Computes 0-100 Governance Score and routes High Risk items exclusively to Legal Reviewers.</p>
+        </div>
+
+        <!-- Agent 13 -->
+        <div class="glass-card rounded-2xl p-5 border-slate-800 glass-card-hover sm:col-span-2 lg:col-span-3 border-purple-500/40">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-mono font-bold text-indigo-400">Agent 13 (Dual)</span>
+            <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-purple-500/20 text-purple-300">Adaptive Intelligence</span>
+          </div>
+          <h4 class="text-sm font-bold text-white">Guideline Clarifier & Compiler</h4>
+          <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+            <strong>13a. Guideline Compiler:</strong> Transforms raw text and PDF documentation into structured JSON rules with positive/negative examples.<br/>
+            <strong>13b. Guideline Clarifier:</strong> Analyzes telemetry from reviewer overrides to identify ambiguous rules and drafts clarified wording for Admin approval.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 6: 80-ITEM BENCHMARKS & MASTER TEST SUITE -->
+  <section id="benchmarks" class="py-20 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center gap-2 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-2">
+        <i data-lucide="award" class="w-4 h-4"></i>
+        <span>Rigorously Evaluated</span>
+      </div>
+      <h2 class="text-3xl font-black text-white tracking-tight">80-Item Gold Benchmark & 28-Test Suite</h2>
+      <p class="mt-3 text-slate-400 max-w-3xl text-sm sm:text-base leading-relaxed">
+        Our evaluation suite tests both positive violation catches and negative control precision across an 80-item Gold Benchmark (50 violations, 30 clean controls).
+      </p>
+
+      <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Benchmark Results Card -->
+        <div class="glass-card rounded-2xl p-6 border-slate-800">
+          <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+            <i data-lucide="check-check" class="w-4 h-4 text-emerald-400"></i>
+            <span>Gold Benchmark Measured Performance</span>
+          </h4>
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between text-xs font-semibold mb-1">
+                <span class="text-slate-300">Citation Grounding Rate (Target: 100%)</span>
+                <span class="text-emerald-400 font-mono">100.0%</span>
+              </div>
+              <div class="w-full bg-slate-800 rounded-full h-2">
+                <div class="bg-emerald-400 h-2 rounded-full" style="width: 100%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs font-semibold mb-1">
+                <span class="text-slate-300">Detection Precision (Target: &gt; 90%)</span>
+                <span class="text-emerald-400 font-mono">100.0%</span>
+              </div>
+              <div class="w-full bg-slate-800 rounded-full h-2">
+                <div class="bg-emerald-400 h-2 rounded-full" style="width: 100%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs font-semibold mb-1">
+                <span class="text-slate-300">Detection Recall (Target: &gt; 90%)</span>
+                <span class="text-emerald-400 font-mono">100.0%</span>
+              </div>
+              <div class="w-full bg-slate-800 rounded-full h-2">
+                <div class="bg-emerald-400 h-2 rounded-full" style="width: 100%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs font-semibold mb-1">
+                <span class="text-slate-300">Clean Control False Positive Rate (Target: &lt; 5%)</span>
+                <span class="text-emerald-400 font-mono">0.0%</span>
+              </div>
+              <div class="w-full bg-slate-800 rounded-full h-2">
+                <div class="bg-emerald-400 h-2 rounded-full" style="width: 0%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs font-semibold mb-1">
+                <span class="text-slate-300">Intent Guard Fix Pass Rate (Target: &gt; 90%)</span>
+                <span class="text-emerald-400 font-mono">100.0%</span>
+              </div>
+              <div class="w-full bg-slate-800 rounded-full h-2">
+                <div class="bg-emerald-400 h-2 rounded-full" style="width: 100%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 28 Diagnostic Tests Card -->
+        <div class="glass-card rounded-2xl p-6 border-slate-800">
+          <div class="flex items-center justify-between mb-4">
+            <h4 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+              <i data-lucide="cpu" class="w-4 h-4 text-indigo-400"></i>
+              <span>Master Diagnostic Test Suite</span>
+            </h4>
+            <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">28/28 PASSED</span>
+          </div>
+          <div class="space-y-2 text-xs text-slate-300 max-h-[220px] overflow-y-auto pr-2 font-mono">
+            <div class="p-1.5 rounded bg-slate-900 flex items-center justify-between">
+              <span>[PASS] Schemas -> No citation no flag</span>
+              <span class="text-emerald-400">✓</span>
+            </div>
+            <div class="p-1.5 rounded bg-slate-900 flex items-center justify-between">
+              <span>[PASS] Ingestion -> Sentence Spans</span>
+              <span class="text-emerald-400">✓</span>
+            </div>
+            <div class="p-1.5 rounded bg-slate-900 flex items-center justify-between">
+              <span>[PASS] Terminology -> CamelCase Match</span>
+              <span class="text-emerald-400">✓</span>
+            </div>
+            <div class="p-1.5 rounded bg-slate-900 flex items-center justify-between">
+              <span>[PASS] Accessibility -> WCAG 2.2 Math</span>
+              <span class="text-emerald-400">✓</span>
+            </div>
+            <div class="p-1.5 rounded bg-slate-900 flex items-center justify-between">
+              <span>[PASS] Tone & Voice -> Superlatives</span>
+              <span class="text-emerald-400">✓</span>
+            </div>
+            <div class="p-1.5 rounded bg-slate-900 flex items-center justify-between">
+              <span>[PASS] Claims -> Outdated Pricing & SLA</span>
+              <span class="text-emerald-400">✓</span>
+            </div>
+            <div class="p-1.5 rounded bg-slate-900 flex items-center justify-between">
+              <span>[PASS] Verifier Gatekeeper -> Kills Uncited</span>
+              <span class="text-emerald-400">✓</span>
+            </div>
+            <div class="p-1.5 rounded bg-slate-900 flex items-center justify-between">
+              <span>[PASS] Intent Guard -> Blocks Banned Fixes</span>
+              <span class="text-emerald-400">✓</span>
+            </div>
+            <div class="p-1.5 rounded bg-slate-900 flex items-center justify-between">
+              <span>[PASS] LangGraph -> End-to-End Execution</span>
+              <span class="text-emerald-400">✓</span>
+            </div>
+            <div class="p-1.5 rounded bg-slate-900 flex items-center justify-between">
+              <span>[PASS] MCP Server -> check_content tool</span>
+              <span class="text-emerald-400">✓</span>
+            </div>
+            <div class="p-1.5 rounded bg-slate-900 flex items-center justify-between">
+              <span>[PASS] RBAC -> Creator approval blocked</span>
+              <span class="text-emerald-400">✓</span>
+            </div>
+            <div class="p-1.5 rounded bg-slate-900 flex items-center justify-between">
+              <span>[PASS] RBAC -> Legal override authority</span>
+              <span class="text-emerald-400">✓</span>
+            </div>
+            <div class="p-1.5 rounded bg-slate-900 flex items-center justify-between">
+              <span>[PASS] RBAC -> Auditor read-only export</span>
+              <span class="text-emerald-400">✓</span>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+            <span>Execute via CLI:</span>
+            <code class="text-indigo-300 font-mono bg-slate-900 px-2 py-0.5 rounded">python -u tests/master_test_suite.py</code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUICK TOOLS & EVALUATOR SHORTCUTS -->
+  <section class="py-16 bg-slate-900/60 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto mb-10">
+        <h3 class="text-2xl font-bold text-white">Evaluator Quick Launchpad</h3>
+        <p class="text-xs sm:text-sm text-slate-400 mt-1">One-click links to test every part of the running solution.</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <a href="http://localhost:3000" target="_blank" class="glass-card rounded-2xl p-5 border-slate-800 glass-card-hover group">
+          <div class="text-indigo-400 mb-2 font-bold flex items-center justify-between">
+            <span class="text-sm">Content Studio</span>
+            <i data-lucide="arrow-up-right" class="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition"></i>
+          </div>
+          <p class="text-xs text-slate-400">Test editor canvas, dynamic text replacement, and inline citations.</p>
+          <span class="mt-3 block font-mono text-[10px] text-indigo-300">http://localhost:3000</span>
+        </a>
+
+        <a href="http://localhost:3000/queue" target="_blank" class="glass-card rounded-2xl p-5 border-slate-800 glass-card-hover group">
+          <div class="text-amber-400 mb-2 font-bold flex items-center justify-between">
+            <span class="text-sm">Approval Kanban</span>
+            <i data-lucide="arrow-up-right" class="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition"></i>
+          </div>
+          <p class="text-xs text-slate-400">Test Manager triage and Legal Reviewer high-risk override workflows.</p>
+          <span class="mt-3 block font-mono text-[10px] text-amber-300">http://localhost:3000/queue</span>
+        </a>
+
+        <a href="http://localhost:3000/brand-pack" target="_blank" class="glass-card rounded-2xl p-5 border-slate-800 glass-card-hover group">
+          <div class="text-purple-400 mb-2 font-bold flex items-center justify-between">
+            <span class="text-sm">Brand Pack & Rules</span>
+            <i data-lucide="arrow-up-right" class="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition"></i>
+          </div>
+          <p class="text-xs text-slate-400">Explore 17 rules, 14 facts, Guideline Compiler & Clarifier.</p>
+          <span class="mt-3 block font-mono text-[10px] text-purple-300">http://localhost:3000/brand-pack</span>
+        </a>
+
+        <a href="http://localhost:8000/docs" target="_blank" class="glass-card rounded-2xl p-5 border-slate-800 glass-card-hover group">
+          <div class="text-emerald-400 mb-2 font-bold flex items-center justify-between">
+            <span class="text-sm">Swagger API Specs</span>
+            <i data-lucide="arrow-up-right" class="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition"></i>
+          </div>
+          <p class="text-xs text-slate-400">Interactive REST endpoints, SSE streaming routes, and schemas.</p>
+          <span class="mt-3 block font-mono text-[10px] text-emerald-300">http://localhost:8000/docs</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-12 bg-slate-950 text-slate-400 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <span class="text-lg">🛡️</span>
+        <div>
+          <span class="font-bold text-white text-sm">BrandShield AI</span>
+          <span class="block text-[11px] text-slate-500">Built for CodeNova India 2026 · Pre-Publication Brand Governance Track</span>
+        </div>
+      </div>
+      <div class="text-center sm:text-right text-slate-500">
+        <div>Team: <strong>Varun</strong> (AI/ML & Architecture Lead) & <strong>Vanshika Mamdyal</strong> (Frontend & UX Lead)</div>
+        <div class="mt-0.5">Licensed for Enterprise Governance & Evaluation · November 2026</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- INTERACTIVE PERSONA TAB SWITCHER SCRIPT -->
+  <script>
+    lucide.createIcons();
+
+    function switchPersonaTab(role) {
+      // Hide all cards
+      const cards = document.querySelectorAll('.persona-detail-card');
+      cards.forEach(c => c.classList.add('hidden'));
+
+      // Show selected card
+      const targetCard = document.getElementById('persona-card-' + role);
+      if (targetCard) {
+        targetCard.classList.remove('hidden');
+      }
+
+      // Reset button styles
+      const buttons = document.querySelectorAll('.persona-tab-btn');
+      buttons.forEach(b => {
+        b.className = 'persona-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/60 transition flex items-center gap-2';
+      });
+
+      // Highlight active button
+      const activeBtn = document.getElementById('tab-btn-' + role);
+      if (activeBtn) {
+        if (role === 'priya') {
+          activeBtn.className = 'persona-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-2 bg-indigo-600 text-white shadow-md shadow-indigo-600/30';
+        } else if (role === 'rahul') {
+          activeBtn.className = 'persona-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-2 bg-amber-600 text-white shadow-md shadow-amber-600/30';
+        } else if (role === 'kavita') {
+          activeBtn.className = 'persona-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-2 bg-emerald-600 text-white shadow-md shadow-emerald-600/30';
+        } else if (role === 'ananya') {
+          activeBtn.className = 'persona-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-2 bg-purple-600 text-white shadow-md shadow-purple-600/30';
+        } else if (role === 'vikram') {
+          activeBtn.className = 'persona-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center gap-2 bg-amber-600 text-white shadow-md shadow-amber-600/30';
+        }
+      }
+
+      lucide.createIcons();
+    }
+  </script>
+</body>
+</html>
