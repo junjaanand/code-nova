@@ -171,7 +171,7 @@ export function Sidebar() {
 
                 {item.pill && (
                   <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono flex items-center gap-1 shrink-0 ${item.pillClass}`}>
-                    {item.isReadOnly && <Lock className="w-2.5 h-2.5" />}
+                    {(item as any).isReadOnly && <Lock className="w-2.5 h-2.5" />}
                     {item.pill}
                   </span>
                 )}
