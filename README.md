@@ -1,7 +1,10 @@
 # 🏆 BrandShield AI — Intelligent Brand Governance Platform
-### CodeNova India 2026 | Round 2 & 3 Submission
+### CodeNova India 2026 | Round 2 (The Build) Official Submission
 **Theme:** Pre-Publication Brand Governance & Multi-Agent Consistency Enforcement  
 **Team Members:** Varun (AI/ML & Backend Lead), Vanshika Mamdyal (Frontend & UI-UX Lead)  
+**Official Repository:** [https://github.com/junjaanand/code-nova.git](https://github.com/junjaanand/code-nova.git)  
+**Round 2 Submission Package:** See [ROUND2_SUBMISSION.md](file:///d:/nova/ROUND2_SUBMISSION.md) for complete submission answers, rubric alignment, individual contributions, and disclosures.  
+**Interactive Master Guide:** [BrandShield_Master_Home_Guide.html](file:///d:/nova/BrandShield_Master_Home_Guide.html) (or visit `http://localhost:3000/guide.html`)  
 
 ---
 
@@ -117,14 +120,17 @@ Open `http://localhost:3000` in your browser.
 $env:PYTHONPATH="."
 python -u tests/master_test_suite.py
 ```
-Executes 28 end-to-end tests covering:
+Executes 47 end-to-end tests across all 11 system modules (100% pass rate) covering:
 - Universal Pydantic Schemas & strict "no citation, no flag" validator contracts
 - All 13 Specialized Governance Agents (Ingestion through Guideline Clarifier)
 - LangGraph Orchestrator & Multi-Agent Parallel Pipeline
 - Brand Guard Model Context Protocol (MCP) Server with JSON-RPC 2.0
+- Dynamic Offset Synchronization & Anti-Word-Splitting Engine
 - Intent Guard Safety Engine & negation inversion filters
 - 5-Role RBAC Governance & tamper-proof permission enforcement
-- 80-Item Gold Benchmark Suite (100% Precision, 100% Recall, 3.3ms latency)
+- Cryptographic SHA-256 Audit Ledger & certified JSON export
+- Analytics KPI engine & Guideline Health telemetry
+- 80-Item Gold Benchmark Suite (100% Precision, 100% Recall, 0% False Positives)
 
 ---
 
