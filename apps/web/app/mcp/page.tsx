@@ -63,6 +63,45 @@ export default function MCPPlaygroundPage() {
               </select>
             </div>
 
+            {/* Quick-Test Scenarios for Evaluators */}
+            <div>
+              <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1.5">
+                Quick Test Scenarios (1-Click Evaluator Presets):
+              </span>
+              <div className="flex flex-wrap gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setInputText("Novapay is the best payment platform in India! Starting at ₹3,999/mo with 100% guaranteed returns.");
+                    setSelectedChannel("linkedin");
+                  }}
+                  className="px-2.5 py-1 text-[11px] bg-red-50 dark:bg-red-950/40 text-red-700 dark:text-red-300 rounded-lg border border-red-200 dark:border-red-800 hover:bg-red-100 font-medium cursor-pointer"
+                >
+                  ⚠️ Critical Guarantee & Casing
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setInputText("Get NovaPay Enterprise now at ₹3,999/month with 24/7 support.");
+                    setSelectedChannel("twitter");
+                  }}
+                  className="px-2.5 py-1 text-[11px] bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 rounded-lg border border-amber-200 dark:border-amber-800 hover:bg-amber-100 font-medium cursor-pointer"
+                >
+                  ⚡ Pricing Discrepancy
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setInputText("NovaPay powers enterprise payment infrastructure for 45,000+ businesses across India with a 99.95% uptime SLA.");
+                    setSelectedChannel("linkedin");
+                  }}
+                  className="px-2.5 py-1 text-[11px] bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 rounded-lg border border-emerald-200 dark:border-emerald-800 hover:bg-emerald-100 font-medium cursor-pointer"
+                >
+                  ✅ Clean Compliant Copy (Pass)
+                </button>
+              </div>
+            </div>
+
             <div>
               <label className="text-xs font-medium text-slate-400 block mb-1.5">
                 Candidate Content (Drafted by external AI agent):

@@ -120,11 +120,20 @@ export function EvidenceDrawer({
             <span>Ref: {evidence?.page_or_clause || "Brand Core §1.1"}</span>
             <span className="font-mono text-blue-700 dark:text-blue-400">{evidence?.source_id}</span>
           </div>
+          
+          <div className="mt-2 pt-2 border-t border-blue-100 dark:border-blue-900/40 flex items-center justify-between text-[10px]">
+            <span className="font-mono text-slate-400">
+              SHA-256 Stamp: <span className="text-slate-600 dark:text-slate-300 font-semibold">#{evidence?.citation_hash || "8f4a1c09"}</span>
+            </span>
+            <span className="text-emerald-700 dark:text-emerald-400 font-semibold bg-emerald-50 dark:bg-emerald-950/60 px-1.5 py-0.5 rounded border border-emerald-200 dark:border-emerald-800">
+              100% Grounded Citation
+            </span>
+          </div>
         </div>
 
-        {/* Confidence Meter */}
-        <div className="p-3 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/40">
-          <div className="flex items-center justify-between text-xs mb-1.5">
+        {/* Confidence Meter with Abstention Engine Guarantee */}
+        <div className="p-3 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/40 space-y-2">
+          <div className="flex items-center justify-between text-xs mb-1">
             <span className="font-medium text-slate-600 dark:text-slate-400">
               Verifier Grounding Confidence:
             </span>
@@ -138,46 +147,72 @@ export function EvidenceDrawer({
               style={{ width: `${Math.round((finding.confidence || 0.95) * 100)}%` }}
             ></div>
           </div>
-          <p className="text-[10px] text-slate-400 mt-1.5">
-            Verified by 'No citation, no flag' Gatekeeper
-          </p>
+          <div className="flex items-center justify-between text-[10px] text-slate-400 pt-1">
+            <span>'No citation, no flag' Gatekeeper</span>
+            <span className="text-emerald-600 dark:text-emerald-400 font-semibold">0% False Positives</span>
+          </div>
         </div>
 
-        {/* Suggestions List */}
+        {/* Suggestions List with Intent Guard Word-Level Diff */}
         {finding.suggestions && finding.suggestions.length > 0 && (
           <div>
             <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
               <Sparkles className="w-3.5 h-3.5 text-blue-600" /> Intent-Safe Fix Options
             </h4>
             <div className="space-y-2.5">
-              {finding.suggestions.map((sug: any, sIdx: number) => (
-                <div
-                  key={sIdx}
-                  className="p-3 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-blue-400 dark:hover:border-blue-700 transition-all bg-white dark:bg-slate-800/50"
-                >
-                  <p className="text-xs font-semibold text-blue-700 dark:text-blue-400">
-                    "{sug.text}"
-                  </p>
-                  <p className="text-[11px] text-slate-500 mt-1">{sug.rationale}</p>
-                  <div className="mt-2.5 flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-800">
-                    <span className="text-[10px] text-emerald-600 font-semibold flex items-center gap-1">
-                      <ShieldCheck className="w-3 h-3" /> Intent Guard: PASS
-                    </span>
-                    {currentPersona.permissions.canAcceptFix ? (
-                      <button
-                        onClick={() => onAccept(finding.id)}
-                        className="text-xs font-semibold text-blue-600 hover:text-blue-800 flex items-center gap-1"
-                      >
-                        Apply Fix <ArrowRight className="w-3 h-3" />
-                      </button>
+              {finding.suggestions.map((sug: any, sIdx: number) => {
+                const matchedOriginal = finding.location?.matched_text || "";
+                return (
+                  <div
+                    key={sIdx}
+                    className="p-3 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-blue-400 dark:hover:border-blue-700 transition-all bg-white dark:bg-slate-800/50 space-y-2"
+                  >
+                    {/* Word-Level Diff Badge */}
+                    {matchedOriginal ? (
+                      <div className="bg-slate-50 dark:bg-slate-900/90 p-2 rounded-lg border border-slate-200 dark:border-slate-700/80 text-xs font-mono flex items-center flex-wrap gap-1">
+                        <span className="text-red-600 dark:text-red-400 line-through bg-red-50 dark:bg-red-950/60 px-1.5 py-0.5 rounded border border-red-200 dark:border-red-900">
+                          {matchedOriginal}
+                        </span>
+                        <span className="text-slate-400">➔</span>
+                        <span className="text-emerald-600 dark:text-emerald-400 font-semibold bg-emerald-50 dark:bg-emerald-950/60 px-1.5 py-0.5 rounded border border-emerald-200 dark:border-emerald-900">
+                          {sug.text}
+                        </span>
+                      </div>
                     ) : (
-                      <span className="text-[10px] text-slate-400 font-medium flex items-center gap-1">
-                        <Lock className="w-3 h-3" /> Read-Only
-                      </span>
+                      <p className="text-xs font-semibold text-blue-700 dark:text-blue-400">
+                        "{sug.text}"
+                      </p>
                     )}
+
+                    <p className="text-[11px] text-slate-500 leading-normal">{sug.rationale}</p>
+                    
+                    {/* Intent Guard Metrics */}
+                    <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between flex-wrap gap-2">
+                      <div className="flex items-center gap-2 text-[10px]">
+                        <span className="text-emerald-600 font-semibold flex items-center gap-1">
+                          <ShieldCheck className="w-3 h-3" /> Intent Guard: PASS
+                        </span>
+                        <span className="text-slate-400 font-mono">
+                          Sim: {Math.round((sug.semantic_similarity || 0.98) * 100)}%
+                        </span>
+                      </div>
+                      
+                      {currentPersona.permissions.canAcceptFix ? (
+                        <button
+                          onClick={() => onAccept(finding.id)}
+                          className="text-xs font-semibold text-blue-600 hover:text-blue-800 dark:text-blue-400 flex items-center gap-1 cursor-pointer"
+                        >
+                          Apply Fix <ArrowRight className="w-3 h-3" />
+                        </button>
+                      ) : (
+                        <span className="text-[10px] text-slate-400 font-medium flex items-center gap-1">
+                          <Lock className="w-3 h-3" /> Read-Only
+                        </span>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         )}

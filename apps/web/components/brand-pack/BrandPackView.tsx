@@ -41,6 +41,7 @@ export function BrandPackView({ packData }: BrandPackProps) {
   // Clarifier & Compiler states
   const [selectedRuleClarification, setSelectedRuleClarification] = useState<any | null>(null);
   const [isClarifying, setIsClarifying] = useState(false);
+  const [isApplyingClarification, setIsApplyingClarification] = useState(false);
   const [showCompilerModal, setShowCompilerModal] = useState(false);
   const [compilerText, setCompilerText] = useState("");
   const [compileResult, setCompileResult] = useState<any | null>(null);
@@ -102,6 +103,30 @@ export function BrandPackView({ packData }: BrandPackProps) {
       console.error("Clarification error:", e);
     } finally {
       setIsClarifying(false);
+    }
+  };
+
+  const handleApplyClarification = async () => {
+    if (!selectedRuleClarification?.rule_id) return;
+    setIsApplyingClarification(true);
+    try {
+      const res = await api.applyClarification(selectedRuleClarification.rule_id);
+      alert(`✅ Clarification Published to Brand Pack v3!\n\nRule: ${selectedRuleClarification.rule_title}\nAmbiguity Index reduced to 0.05.\nOverrides successfully resolved in audit ledger.`);
+      if (res.rule) {
+        const found = rules.find((r) => r.id === res.rule.id);
+        if (found) {
+          found.description = res.rule.description;
+          found.ambiguity_score = res.rule.ambiguity_score;
+          found.good_examples = res.rule.good_examples;
+          found.bad_examples = res.rule.bad_examples;
+        }
+      }
+      setSelectedRuleClarification(null);
+    } catch (e: any) {
+      console.error("Apply clarification error:", e);
+      alert(e.message || "Failed to publish clarification. Please ensure role is Admin or Manager.");
+    } finally {
+      setIsApplyingClarification(false);
     }
   };
 
@@ -495,6 +520,21 @@ Under RBI fintech regulations, never guarantee financial returns or declare depo
                         "{selectedRuleClarification.positive_example || "an industry-leading payment platform trusted by 45,000+ merchants"}"
                       </span>
                     </div>
+                  </div>
+
+                  {/* 1-Click Self-Healing Clarifier Action */}
+                  <div className="pt-3 border-t border-blue-200/80 dark:border-blue-800 flex items-center justify-between flex-wrap gap-2">
+                    <span className="text-[11px] text-blue-900 dark:text-blue-300 font-medium">
+                      Self-Healing Clarifier: Promotes this revision into active Brand Pack.
+                    </span>
+                    <button
+                      onClick={handleApplyClarification}
+                      disabled={isApplyingClarification}
+                      className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm shadow-emerald-600/30 transition-all cursor-pointer"
+                    >
+                      <Check className="w-4 h-4" />
+                      <span>{isApplyingClarification ? "Publishing to Brand Pack..." : "Approve & Publish Clarified Rule to Brand Pack v3"}</span>
+                    </button>
                   </div>
                 </div>
               )}

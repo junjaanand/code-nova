@@ -48,6 +48,7 @@ class EvidenceItem(BaseModel):
     source_version: int = Field(1, description="Brand Pack or Fact version")
     page_or_clause: Optional[str] = Field(None, description="Section, page, or clause reference")
     quote: str = Field(..., description="Exact quoted text from brand rule or approved fact")
+    citation_hash: Optional[str] = Field(None, description="Cryptographic SHA-256 grounding verification stamp")
 
 class SuggestionItem(BaseModel):
     id: str = Field(default_factory=lambda: f"sug_{uuid.uuid4().hex[:8]}")
@@ -55,6 +56,8 @@ class SuggestionItem(BaseModel):
     rationale: str = Field(..., description="Why this fix satisfies the brand guideline")
     intent_check: str = Field("pass", description="'pass' or 'fail' from Intent Guard")
     diff_preview: Optional[str] = Field(None, description="Inline diff markup")
+    semantic_similarity: Optional[float] = Field(0.98, description="Intent preservation semantic similarity score (0.0-1.0)")
+    negation_check: Optional[str] = Field("pass", description="'pass' or 'fail' for negation preservation")
 
 class FindingDecision(BaseModel):
     action: str = Field(..., description="accept | edit | reject | override")

@@ -63,6 +63,8 @@ export const api = {
     fetchApi<any>("/brand-pack/compile", { method: "POST", body: JSON.stringify({ document_text }) }),
   draftClarification: (ruleId: string) =>
     fetchApi<any>(`/analytics/guideline-health/${ruleId}/draft-clarification`, { method: "POST" }),
+  applyClarification: (ruleId: string) =>
+    fetchApi<any>(`/analytics/guideline-health/${ruleId}/apply-clarification`, { method: "POST" }),
 
   // Analytics
   getAnalytics: () => fetchApi<any>("/analytics/overview"),
