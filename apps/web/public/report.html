@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BrandShield AI — Round 3 Final Product Report | CodeNova India 2026</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 18mm 16mm 18mm 16mm;
+      @bottom-right {
+        content: "Page " counter(page) " of " counter(pages);
+        font-size: 9pt;
+        color: #64748b;
+      }
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: #0f172a;
+      line-height: 1.55;
+      font-size: 10pt;
+      margin: 0;
+      padding: 0;
+    }
+    h1, h2, h3, h4 {
+      color: #0f172a;
+      margin-top: 1.2em;
+      margin-bottom: 0.4em;
+      page-break-after: avoid;
+    }
+    h1 {
+      font-size: 20pt;
+      border-bottom: 2px solid #2563eb;
+      padding-bottom: 6px;
+      margin-top: 0;
+    }
+    h2 {
+      font-size: 14pt;
+      color: #1e3a8a;
+      border-bottom: 1px solid #cbd5e1;
+      padding-bottom: 4px;
+    }
+    h3 {
+      font-size: 11pt;
+      color: #1e40af;
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 8pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .badge-blue { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+    .badge-green { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+    .badge-amber { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+    .meta-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+    }
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      font-size: 9pt;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      font-size: 8.5pt;
+      page-break-inside: avoid;
+    }
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 6px 10px;
+      text-align: left;
+    }
+    th {
+      background: #f1f5f9;
+      color: #1e293b;
+      font-weight: 700;
+    }
+    tr:nth-child(even) td {
+      background: #f8fafc;
+    }
+    .card {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 12px;
+      margin: 10px 0;
+      background: #ffffff;
+      page-break-inside: avoid;
+    }
+    .card-accent {
+      border-left: 4px solid #2563eb;
+      background: #f8fafc;
+    }
+    .card-success {
+      border-left: 4px solid #16a34a;
+      background: #f0fdf4;
+    }
+    .card-warning {
+      border-left: 4px solid #d97706;
+      background: #fffbeb;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 8.5pt;
+      background: #f1f5f9;
+      padding: 1px 4px;
+      border-radius: 4px;
+      color: #0f172a;
+    }
+    pre {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 8pt;
+      overflow-x: auto;
+      line-height: 1.4;
+    }
+    .page-break {
+      page-break-before: always;
+    }
+    ul, ol {
+      margin-top: 4px;
+      margin-bottom: 8px;
+      padding-left: 20px;
+    }
+    li {
+      margin-bottom: 3px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- COVER / HEADER -->
+  <div style="text-align: center; margin-bottom: 20px;">
+    <span class="badge badge-blue">CodeNova India 2026 — Round 3 (The Finish)</span>
+    <h1 style="margin: 8px 0 4px 0; font-size: 22pt;">BrandShield AI</h1>
+    <p style="font-size: 11pt; color: #475569; margin: 0 0 12px 0;">
+      <strong>Enterprise Pre-Publication Brand Governance & Multi-Agent Consistency System</strong>
+    </p>
+    <div style="font-size: 9pt; color: #64748b;">
+      Track: Pre-Publication Brand Governance (by Inkloom AI) | Date: November 2026
+    </div>
+  </div>
+
+  <div class="meta-box">
+    <div class="meta-grid">
+      <div><strong>Live Web App:</strong> <a href="https://code-nova-blue.vercel.app">https://code-nova-blue.vercel.app</a></div>
+      <div><strong>Custom Domain:</strong> <code>https://brand-shield.cv</code> (configured)</div>
+      <div><strong>Public Repository:</strong> <a href="https://github.com/junjaanand/code-nova.git">junjaanand/code-nova</a> (commit <code>d7dfd61</code>)</div>
+      <div><strong>Master Test Suite:</strong> <strong>47 / 47 PASSED (100.0%)</strong></div>
+      <div><strong>Team Lead:</strong> Varun (AI/ML & Architecture)</div>
+      <div><strong>Frontend & UX Lead:</strong> Vanshika Mamdyal</div>
+    </div>
+  </div>
+
+  <h2>1. Executive Summary & Product Vision</h2>
+  <p>
+    In high-velocity enterprises, marketing, growth, and communications teams generate thousands of digital brand assets, social announcements, and ad copies weekly. Generative AI has accelerated copy creation by 10x, but has caused a <strong>critical compliance crisis</strong>: hallucinated discounts, deprecated product names, non-compliant superlatives violating regulatory standards (e.g., RBI fintech guidelines), and inconsistent visual palettes.
+  </p>
+  <p>
+    <strong>BrandShield AI</strong> is the first comprehensive <strong>pre-publication brand governance operating system</strong>. Built with a 13-agent architecture, ProseMirror dynamic offset synchronization, and an external Model Context Protocol (MCP) server, it intercepts non-compliant assets before they go live, providing 100% cited evidence, intent-preserving 1-click fixes, and a self-healing governance loop that clarifies ambiguous rules from reviewer decisions.
+  </p>
+
+  <h2>2. Delivery of the Three Named Improvements (Official Commitments)</h2>
+  <p>
+    As committed in Round 1 and Round 2, here is the complete, verified delivery of the three named improvements:
+  </p>
+
+  <div class="card card-accent">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h3 style="margin: 0;">Improvement 1: Evidence-Grounded Findings with Abstention Engine</h3>
+      <span class="badge badge-green">Delivered & Verified</span>
+    </div>
+    <p style="margin: 6px 0 8px 0; font-size: 9pt;">
+      <strong>The Problem:</strong> Generic AI checkers hallucinate nonexistent corporate policies or flag harmless creative expressions, causing severe reviewer alert fatigue.
+    </p>
+    <p style="margin: 0 0 6px 0; font-size: 9pt;">
+      <strong>Our Solution & Architecture:</strong> A strict <em>"No citation, no flag"</em> Verifier Critic Gate (<code>apps/api/agents/verifier.py</code>) that screens all candidate flags against the active Brand Pack clause registry and verified facts. If an issue cannot be anchored to an exact guideline clause or verified fact, the engine <strong>explicitly abstains</strong>. Every verified finding receives a cryptographic <strong>SHA-256 citation grounding hash</strong>.
+    </p>
+    <div style="background: #ffffff; border: 1px solid #cbd5e1; padding: 6px 10px; border-radius: 6px; font-size: 8.5pt;">
+      <strong>Verified Benchmark Proof:</strong> 100.0% citation grounding rate across 80-item Gold Benchmark; 0.0% false positive rate on clean controls; zero hallucinated guideline clauses.
+    </div>
+  </div>
+
+  <div class="card card-accent">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h3 style="margin: 0;">Improvement 2: Intent-Preserving Semantic Fix Engine (Intent Guard)</h3>
+      <span class="badge badge-green">Delivered & Verified</span>
+    </div>
+    <p style="margin: 6px 0 8px 0; font-size: 9pt;">
+      <strong>The Problem:</strong> Automated fixes often alter author voice, invert sentence polarity, or introduce unauthorized promises (e.g. guarantees).
+    </p>
+    <p style="margin: 0 0 6px 0; font-size: 9pt;">
+      <strong>Our Solution & Architecture:</strong> An automated safety interceptor (<code>apps/api/agents/intent_guard.py</code>) that verifies cross-sentence semantic coherence (98% similarity threshold), enforces negation preservation (blocks inverting <em>"we do not charge fees"</em> to <em>"we charge fees"</em>), and mathematically blocks introduced prohibited promises (e.g., <em>"100% guaranteed"</em>). Highlights word-level visual diffs (<code>[-old-] ➔ {+new+}</code>).
+    </p>
+    <div style="background: #ffffff; border: 1px solid #cbd5e1; padding: 6px 10px; border-radius: 6px; font-size: 8.5pt;">
+      <strong>Verified Benchmark Proof:</strong> 100.0% safe-fix pass rate on immediate re-scan; ProseMirror dynamic offset shifts ensure zero syllable-slicing on replacement.
+    </div>
+  </div>
+
+  <div class="card card-accent">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h3 style="margin: 0;">Improvement 3: Guideline Health Intelligence & Clarifier (Self-Healing Loop)</h3>
+      <span class="badge badge-green">Delivered & Verified</span>
+    </div>
+    <p style="margin: 6px 0 8px 0; font-size: 9pt;">
+      <strong>The Problem:</strong> Static Brand PDFs decay over time; vague rules cause endless internal debates and repetitive reviewer overrides.
+    </p>
+    <p style="margin: 0 0 6px 0; font-size: 9pt;">
+      <strong>Our Solution & Architecture:</strong> Telemetry engine (<code>apps/api/agents/insights.py</code>) analyzing human reviewer override patterns to detect ambiguous rules. The Clarifier Agent drafts refined rule descriptions with concrete ❌ Prohibited and ✅ Approved examples. A 1-click <code>apply-clarification</code> API allows Admins to publish clarified rules directly into active Brand Pack v3, dropping ambiguity to 0.05.
+    </p>
+    <div style="background: #ffffff; border: 1px solid #cbd5e1; padding: 6px 10px; border-radius: 6px; font-size: 8.5pt;">
+      <strong>Verified Benchmark Proof:</strong> Successfully detected high-override rule <code>r_tone_001</code> (16.7% override), drafted structured amendment, and resolved in audit ledger.
+    </div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <h2>3. Technical Architecture & Implementation Details</h2>
+  <p>
+    BrandShield AI is built as a production-grade, distributed, multi-agent platform designed for sub-second enterprise response times and high reliability:
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 25%;">Layer / Subsystem</th>
+        <th style="width: 40%;">Technologies Used</th>
+        <th style="width: 35%;">Key Architectural Innovation</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Web Application</strong></td>
+        <td>Next.js 15 (App Router), React 19, Tailwind CSS, Lucide React, Vercel Edge CDN</td>
+        <td>Dynamic persona context switching across 5 roles; 8 static optimized routes.</td>
+      </tr>
+      <tr>
+        <td><strong>Document Canvas</strong></td>
+        <td>Tiptap / ProseMirror rich-text engine, custom text segmentation algorithm</td>
+        <td>Dynamic character offset relocation (<code>Δ = L_new - L_old</code>) preventing word slicing.</td>
+      </tr>
+      <tr>
+        <td><strong>Backend API</strong></td>
+        <td>Python 3.11, FastAPI, Pydantic v2 universal typed schemas, Uvicorn</td>
+        <td>Zero unhandled exceptions; sub-200ms hybrid evaluation pipeline.</td>
+      </tr>
+      <tr>
+        <td><strong>Multi-Agent Core</strong></td>
+        <td>13 Specialized Agents (Ingestion, Context, Terminology, Contrast, Visual, Tone, Claims, Messaging, Verifier, Fix, Intent Guard, Router, Clarifier)</td>
+        <td>Deterministic exact-match filters execute first (0ms latency), falling back to Gemini with circuit breakers.</td>
+      </tr>
+      <tr>
+        <td><strong>Model Context Protocol</strong></td>
+        <td>Brand Guard MCP Server, JSON-RPC 2.0 (<code>apps/api/mcp/brand_guard_mcp.py</code>)</td>
+        <td>Standardized tools (<code>check_content</code>, <code>lookup_fact</code>, <code>get_rules</code>) for external AI agents (Claude, ChatGPT, Cursor).</td>
+      </tr>
+      <tr>
+        <td><strong>Security & RBAC</strong></td>
+        <td>JWT Tokens, Role-Based Access Control, Tamper-Evident SHA-256 Ledger</td>
+        <td>Creator cannot self-approve; Reviewer owns high-risk; Auditor strictly read-only.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>What Was Technically Hard & How We Solved It</h3>
+  <ol>
+    <li>
+      <strong>Eliminating Syllable-Slicing During Inline Fix Application:</strong>  
+      When a user accepts a replacement (e.g. replacing <code>Novapay</code> with <code>NovaPay</code>), character positions of all subsequent text shift by displacement $\Delta$. Typical text editors slice words or highlight random syllables. We solved this with a dynamic relocation algorithm that anchors each finding to exact word boundaries and recalculates all open highlight spans in real-time.
+    </li>
+    <li>
+      <strong>Negation Inversion Interception in Intent Guard:</strong>  
+      LLMs frequently rephrase negative statements into positive ones (e.g. <em>"we do not charge deposit fees"</em> becomes <em>"we charge standard deposit fees"</em>). Intent Guard uses syntactic negation extraction and token polarity checks to guarantee creator meaning is preserved before suggestions are shown.
+    </li>
+    <li>
+      <strong>Self-Healing Closed-Loop Guideline Compilation:</strong>  
+      Transforming subjective human overrides into programmatic Brand Pack updates without application restart. We created an in-memory mutable schema repository with immutable cryptographic audit logging, enabling instant version promotion (v2 $\rightarrow$ v3).
+    </li>
+  </ol>
+
+  <h2>4. Testing Evidence & Master Diagnostic Results</h2>
+  <p>
+    The entire platform is backed by our automated diagnostic suite (<code>tests/master_test_suite.py</code>), executing 47 rigorous end-to-end tests across 11 critical system modules:
+  </p>
+
+  <div class="card card-success">
+    <div style="display: flex; justify-content: space-between;">
+      <strong>Test Suite Status: ALL 47 TESTS PASSED (100.0%)</strong>
+      <span class="badge badge-green">47 / 47 PASSED</span>
+    </div>
+    <ul style="font-size: 8.5pt; margin-top: 6px;">
+      <li><strong>Module 1: Schemas & Contracts:</strong> 3/3 passed (Universal Pydantic schema validation, strict citation constraint).</li>
+      <li><strong>Module 2: 13 Specialized Agents:</strong> 14/14 passed (WCAG 2.2 AA contrast math, CamelCase matching, Verifier critic).</li>
+      <li><strong>Module 3: LangGraph Orchestrator:</strong> 2/2 passed (End-to-end pipeline execution and SSE streaming).</li>
+      <li><strong>Module 4: Brand Guard MCP Server:</strong> 4/4 passed (JSON-RPC 2.0 tool execution and error handling).</li>
+      <li><strong>Module 5: Dynamic Offset Synchronization:</strong> 3/3 passed (Delta displacement and word boundary lock).</li>
+      <li><strong>Module 6: Intent Guard Safety Engine:</strong> 2/2 passed (Prohibited promise interception and negation check).</li>
+      <li><strong>Module 7: Workflow & Review Queue:</strong> 4/4 passed (5-stage Kanban triage and role-gated signoffs).</li>
+      <li><strong>Module 8: 5-Role Enterprise RBAC:</strong> 5/5 passed (Creator, Manager, Legal, Admin, Auditor permission gating).</li>
+      <li><strong>Module 9: Cryptographic Audit Trail:</strong> 3/3 passed (Non-repudiation and SHA-256 ledger export).</li>
+      <li><strong>Module 10: Analytics & Guideline Health:</strong> 3/3 passed (Override indexing and example generation).</li>
+      <li><strong>Module 11: 80-Item Gold Benchmark:</strong> 4/4 passed (100% precision, 100% recall, 0% false positives, 187ms latency).</li>
+    </ul>
+  </div>
+
+  <div class="page-break"></div>
+
+  <h2>5. 5-Role Enterprise Governance & User Journey</h2>
+  <p>
+    BrandShield AI enforces strict role-based separation of duties (SoD) to satisfy enterprise audit and compliance standards (RBI Fintech Advisory, ISO/IEC 42001):
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Role & Persona</th>
+        <th>Primary Desk</th>
+        <th>Core Permissions & Guardrails</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>✍️ Priya Sharma</strong><br><span style="font-size: 7.5pt; color: #64748b;">Creator (Copywriter)</span></td>
+        <td>Writing Canvas (<code>/</code>)</td>
+        <td>Drafts content; views real-time inline citations; clicks "Apply Fix" for safe tracked changes; submits to review queue. <strong>Strictly blocked from self-approving high-risk copy.</strong></td>
+      </tr>
+      <tr>
+        <td><strong>📋 Rahul Mehta</strong><br><span style="font-size: 7.5pt; color: #64748b;">Content Manager</span></td>
+        <td>Kanban Queue (<code>/queue</code>)</td>
+        <td>Triages 5-stage approval queue; approves standard and elevated risk copy; tracks team SLA throughput and pending bottlenecks.</td>
+      </tr>
+      <tr>
+        <td><strong>⚖️ Kavita Iyer</strong><br><span style="font-size: 7.5pt; color: #64748b;">Legal & Compliance</span></td>
+        <td>High-Risk Desk</td>
+        <td>Sole authority to approve Critical/High-Risk claims; inspects 100% cited grounding; performs documented overrides with mandatory compliance justification.</td>
+      </tr>
+      <tr>
+        <td><strong>🛡️ Ananya Roy</strong><br><span style="font-size: 7.5pt; color: #64748b;">Brand Director / Admin</span></td>
+        <td>Brand Pack (<code>/brand-pack</code>)</td>
+        <td>Manages Brand Pack rules, facts, terms, and assets; executes Guideline Compiler on raw PDF guides; reviews Guideline Health; publishes 1-click rule clarifications.</td>
+      </tr>
+      <tr>
+        <td><strong>👁️ Vikram Singh</strong><br><span style="font-size: 7.5pt; color: #64748b;">External Auditor</span></td>
+        <td>Audit & Compliance (<code>/settings</code>)</td>
+        <td><strong>Strictly Read-Only mode;</strong> tamper-evident canvas watermarks; inspects immutable SHA-256 event trail; exports certified compliance JSON packages.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>6. Product Roadmap & Future Horizons</h2>
+  <p>
+    With the core text and visual governance foundation complete and battle-tested, our post-hackathon commercial roadmap encompasses:
+  </p>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+    <div class="card">
+      <h3 style="margin-top: 0; color: #1e3a8a;">Phase 1: Q1 2027 (Ecosystem Expansion)</h3>
+      <ul style="font-size: 8.5pt;">
+        <li><strong>Figma Plugin:</strong> Real-time BrandShield inspection directly within designer artboards.</li>
+        <li><strong>Chrome Browser Extension:</strong> Governance overlay across Google Docs, LinkedIn Campaign Manager, and WordPress.</li>
+        <li><strong>Presidio Multi-Lingual PII:</strong> Expansion across 12 Indian regional languages (Hindi, Tamil, Telugu, etc.).</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 style="margin-top: 0; color: #1e3a8a;">Phase 2: Q2 2027 (Multimodal Governance)</h3>
+      <ul style="font-size: 8.5pt;">
+        <li><strong>Video & Audio Governance:</strong> Automatic frame-by-frame logo safe-zone tracking and voice modulation checks for YouTube and Reels.</li>
+        <li><strong>ERP / DAM Connectors:</strong> Direct bi-directional synchronization with Adobe Experience Manager and Salesforce Marketing Cloud.</li>
+        <li><strong>Automated Regulatory Filing:</strong> One-click generation of ASCI (Advertising Standards Council of India) compliance dossiers.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>7. Privacy, Security & Responsible AI</h2>
+  <ul>
+    <li><strong>PII Redaction at the Edge:</strong> The Ingestion Agent automatically scrubs names, email addresses, phone numbers, and financial PAN/Aadhaar references prior to any agent reasoning.</li>
+    <li><strong>Zero Training Retention:</strong> Brand guidelines and candidate copy are never used for foundation model pre-training or public weight updates.</li>
+    <li><strong>Cryptographic Non-Repudiation:</strong> Every human decision (accept, reject, override) is signed with an actor timestamp and stored in an immutable SHA-256 audit ledger.</li>
+  </ul>
+
+  <div style="text-align: center; margin-top: 30px; padding-top: 15px; border-top: 1px solid #e2e8f0; font-size: 8.5pt; color: #64748b;">
+    BrandShield AI — Built for CodeNova India 2026 Hackathon | Team Lead: Varun | Frontend Lead: Vanshika Mamdyal
+  </div>
+
+</body>
+</html>
