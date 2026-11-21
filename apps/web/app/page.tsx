@@ -7,16 +7,17 @@ import { EvidenceDrawer } from "@/components/evidence-drawer/EvidenceDrawer";
 import { LiveAgentStream } from "@/components/streaming/LiveAgentStream";
 import { api } from "@/lib/api";
 import { usePersona } from "@/lib/personaContext";
+import { initialContentItems, initialFindings } from "@/lib/mockData";
 
 export default function ReviewPage() {
   const { currentPersona } = usePersona();
-  const [contentList, setContentList] = useState<any[]>([]);
+  const [contentList, setContentList] = useState<any[]>(initialContentItems);
   const [selectedContentId, setSelectedContentId] = useState<string>("cnt_demo_fintech_launch");
-  const [currentContent, setCurrentContent] = useState<any>(null);
-  const [findings, setFindings] = useState<any[]>([]);
-  const [selectedFindingId, setSelectedFindingId] = useState<string | null>(null);
+  const [currentContent, setCurrentContent] = useState<any>(initialContentItems[0]);
+  const [findings, setFindings] = useState<any[]>(initialFindings["cnt_demo_fintech_launch"] || []);
+  const [selectedFindingId, setSelectedFindingId] = useState<string | null>("f_term_01");
   const [isStreaming, setIsStreaming] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   // Load content
   const loadContentData = async (id: string) => {
